@@ -1,0 +1,45 @@
+.qn-popup {
+    display: block;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99999999;
+
+    background-color: rgba(0, 0, 0, .8);
+    .popup-content {
+        position: absolute;
+        top: 50%;
+
+        margin: -25% .4rem;
+
+        font-size: .4rem;
+
+        color: #fff;
+        p {
+            margin-bottom: .25rem;
+        }
+    }
+}
+
+//  警告提示
+.qn-alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 999999999;
+
+    margin-top: -.7rem;
+    margin-left: -3.5rem;
+    border-radius: 10px;
+    padding: 4px 8px;
+    width: 7rem;
+
+    font-size: .4rem;
+    text-align: center;
+
+    color: #fff;
+    background-color: rgba(0, 0, 0, .8);
+}

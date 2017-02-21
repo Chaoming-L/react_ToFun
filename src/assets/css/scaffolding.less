@@ -1,0 +1,54 @@
+/* ====================
+  脚手架
+==================== */
+
+/* --------------------
+  重置box-sizing
+-------------------- */
+* {
+  box-sizing: border-box;
+
+  &:before,
+  &:after { box-sizing: border-box; }
+}
+
+/* --------------------
+  重置body
+-------------------- */
+html {
+  font-size: @rem-root-value;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+body {
+  font-family: @font-family-base;
+  font-size: @font-size-base;
+  .font-dpr(@font-size-base);
+  line-height: @line-height-base;
+  color: @text-color;
+}
+
+html,
+body { background-color: @body-bg; }
+
+/* --------------------
+  重置相关元素的字体
+-------------------- */
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* --------------------
+  图片
+-------------------- */
+img { vertical-align: middle; }
+
+/* --------------------
+  可点击元素
+-------------------- */
+[role="button"] { cursor: pointer; }
