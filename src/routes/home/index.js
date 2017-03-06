@@ -1,8 +1,11 @@
 import React from "react";
-import RaisedButton from "material-ui/RaisedButton";
+import AppBar from "material-ui/AppBar";
 
 const Home = () => (
-    <RaisedButton label="Default" />
+  <AppBar
+    title="POST MESSAGE"
+    iconClassNameRight="muidocs-icon-navigation-expand-more"
+  />
 );
 
 export default Home
