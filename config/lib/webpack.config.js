@@ -182,6 +182,7 @@ webpackConfig.postcss = [
 webpackConfig.postcss.push(pxtorem({
   rootValue: 100,        //页面根font-size = 100px
   propWhiteList: [],
+  minPixelValue: 2
 }));
 
 /* --------------------
