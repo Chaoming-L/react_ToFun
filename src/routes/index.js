@@ -1,8 +1,12 @@
 /* --------------------
   我们只需导入初始渲染的所需模块
 -------------------- */
+// 布局元素
 import CoreLayout from '../layouts/CoreLayout'
-import Home from './Home'
+// 主路由
+import Home from './home'
+
+// 错误处理路由
 import PageNotFound from './PageNotFound'
 import Redirect from './PageNotFound/redirect'
 

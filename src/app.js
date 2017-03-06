@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import createStore from './store/createStore'
-import AppContainer from './routes/Root'
+import AppContainer from './containers/app_container'
 
 
 /* --------------------
