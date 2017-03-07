@@ -1,29 +1,43 @@
 import React from "react";
 
 class TouchRefresh extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
-    this.state = {
-      startY: 0
-    }
+    this.startY = 0;
+  }
+
+  componentDidMount() {
+    let _this = this;
+
+    document.addEventListener('touchstart', function (e) {
+      let touch = e.targetTouches[0];
+      let touchStart = touch.pageY;
+      // 开始位置
+      _this.startY = touchStart;
+    }, false)
+
+    document.addEventListener('touchend', function (e) {
+      let touch = e.changedTouches[0];
+      let touchEnd = touch.pageY;
+      let moveY = touchEnd - _this.startY;
+      console.log(moveY)
+      if (moveY > 150) {
+        _this.props.action()
+      }
+
+      _this.startY = 0;
+    }, false)
   }
 
   touchMove = (e) => {
-    var y = e.targetTouches[0].pageY
-
-    if (y - this.startY > 100) {
-      console.log('3333')
-    }
+    let y = e.targetTouches[0].pageY;
+    let touchY = y - this.startY;
   }
 
-  touchStart = (e) => {
-    console.log(e)
-    this.setState({startY: e.pageY});
-  }
 
-  render () {
+  render() {
     return (
-      <div onTouchMove={this.touchMove} onTouchEnd={this.touchStart}>
+      <div onTouchMove={this.touchMove}>
         {this.props.children}
       </div>
     )

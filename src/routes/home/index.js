@@ -22,6 +22,10 @@ class Home extends React.Component {
   }
 
   componentWillMount () {
+    this.fetchData()
+  }
+
+  fetchData = () => {
     let that = this
     qnfetch(apiURL.Get_Message_list)
       .then(res => res.json())
@@ -46,17 +50,18 @@ class Home extends React.Component {
 
   handleSend = () => {
     const content = document.getElementById('contentText').value;
-    const params = {content: content}
+    const params = {content}
+
     qnfetch(apiURL.Post_Message, params, 'POST')
       .then(res => res.json())
       .then(data => {
-        console.log(data)
+
         this.setState({
           ...this.state,
           dialogOpen: false
         })
       })
-
+      .catch(err => console.log(err))
   }
 
   render () {
@@ -77,7 +82,7 @@ class Home extends React.Component {
     ];
 
     return (
-      <TouchRefresh >
+      <TouchRefresh action={this.fetchData}>
         <AppBar
           title="POST MAN"
           iconClassNameRight="muidocs-icon-navigation-expand-more"
@@ -111,6 +116,6 @@ class Home extends React.Component {
       </TouchRefresh>
     )
   }
-}
+};
 
 export default Home

@@ -8,10 +8,12 @@ export function qnfetch(url, datas = {}, method = 'GET') {
   } else {
     return fetch(url, {
       method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
       body: JSON.stringify(datas)
     })
   }
-
 };
 
 export const apiURL = api;
