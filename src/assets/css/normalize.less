@@ -186,14 +186,6 @@ img {
   border: 0;
 }
 
-//
-// Correct overflow not hidden in IE 9/10/11.
-//
-
-svg:not(:root) {
-  overflow: hidden;
-}
-
 // Grouping content
 // ==========================================================================
 
@@ -426,3 +418,13 @@ th {
 input {
   outline: none;
 }
+
+/* --------------------
+  图片
+-------------------- */
+img { vertical-align: middle; }
+
+/* --------------------
+  可点击元素
+-------------------- */
+[role="button"] { cursor: pointer; }

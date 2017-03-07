@@ -179,11 +179,11 @@ webpackConfig.postcss = [
 ]
 
 // 将样式的px单位转化为rem单位
-webpackConfig.postcss.push(pxtorem({
-  rootValue: 100,        //页面根font-size = 100px
-  propWhiteList: [],
-  minPixelValue: 2
-}));
+// webpackConfig.postcss.push(pxtorem({
+//   rootValue: 100,        //页面根font-size = 100px
+//   propWhiteList: [],
+//   minPixelValue: 2
+// }));
 
 /* --------------------
  文件加载器

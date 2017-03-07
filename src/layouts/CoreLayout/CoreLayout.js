@@ -1,5 +1,6 @@
-import React from 'react'
-import './CoreLayout.less'
+import React from "react";
+import "./CoreLayout.less";
+import "assets/css/main.less";
 
 export const CoreLayout = ({ children }) => (
   <div className='container'>
