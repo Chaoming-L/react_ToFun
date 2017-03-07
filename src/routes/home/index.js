@@ -9,6 +9,7 @@ import FloatingActionButton from "material-ui/FloatingActionButton";
 import FlatButton from "material-ui/FlatButton";
 import Dialog from "material-ui/Dialog";
 import TextField from "material-ui/TextField";
+import TouchRefresh from "components/touch_refresh";
 import "./home.less";
 
 class Home extends React.Component {
@@ -76,7 +77,7 @@ class Home extends React.Component {
     ];
 
     return (
-      <div>
+      <TouchRefresh >
         <AppBar
           title="POST MAN"
           iconClassNameRight="muidocs-icon-navigation-expand-more"
@@ -107,7 +108,7 @@ class Home extends React.Component {
             id="contentText"
           />
         </Dialog>
-      </div>
+      </TouchRefresh>
     )
   }
 }
