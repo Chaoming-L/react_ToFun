@@ -4,15 +4,19 @@ import moment from "moment";
 import AppBar from "material-ui/AppBar";
 import {List, ListItem} from "material-ui/List";
 import ContentDrafts from "material-ui/svg-icons/content/drafts";
-import FloatingActionButton from "material-ui/FloatingActionButton";
 import ContentAdd from "material-ui/svg-icons/content/add";
+import FloatingActionButton from "material-ui/FloatingActionButton";
+import FlatButton from "material-ui/FlatButton";
+import Dialog from "material-ui/Dialog";
+import TextField from "material-ui/TextField";
 import "./home.less";
 
 class Home extends React.Component {
   constructor () {
     super();
     this.state = {
-      list: []
+      list: [],
+      dialogOpen: false
     }
   }
 
@@ -26,8 +30,50 @@ class Home extends React.Component {
       })
   }
 
+  handleOpen = () => {
+    this.setState({
+      ...this.state,
+      dialogOpen: true
+    })
+  }
+  handleClose = () => {
+    this.setState({
+      ...this.state,
+      dialogOpen: false
+    })
+  }
+
+  handleSend = () => {
+    const content = document.getElementById('contentText').value;
+    const params = {content: content}
+    qnfetch(apiURL.Post_Message, params, 'POST')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        this.setState({
+          ...this.state,
+          dialogOpen: false
+        })
+      })
+
+  }
+
   render () {
     const list = this.state.list || [];
+
+    const actions = [
+      <FlatButton
+        label="取消"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />,
+      <FlatButton
+        label="发送"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.handleSend}
+      />,
+    ];
 
     return (
       <div>
@@ -43,11 +89,24 @@ class Home extends React.Component {
           )}
         </List>
 
-
-        <FloatingActionButton secondary={true} className="floating-button">
+        <FloatingActionButton secondary={true} className="floating-button" onTouchTap={this.handleOpen}>
           <ContentAdd />
         </FloatingActionButton>
 
+        <Dialog
+          actions={actions}
+          modal={false}
+          open={this.state.dialogOpen}
+          onRequestClose={this.handleClose}
+        >
+          <TextField
+            hintText="尽情吐槽吧"
+            floatingLabelText="你的留言"
+            multiLine={true}
+            rows={2}
+            id="contentText"
+          />
+        </Dialog>
       </div>
     )
   }
