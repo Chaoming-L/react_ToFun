@@ -92,15 +92,15 @@ class Home extends React.Component {
   }
 
   handleSend = () => {
-    const content = document.getElementById('contentText').value;
+    const content = document.getElementById('contentText').value
     const params = {content}
-
+    const that = this
     qnfetch(apiURL.Post_Message, params, 'POST')
       .then(res => res.json())
       .then(data => {
-        this.setState({
-          ...this.state,
-          list: this.state.list.push(data),
+        that.setState({
+          ...that.state,
+          list: [data, ...that.state.list],
           dialogOpen: false
         })
       })
@@ -136,7 +136,7 @@ class Home extends React.Component {
         <div className="message-list" ref="list">
           <List>
             {list.length > 0 && list.map((i, index) =>
-              <ListItem primaryText={i.content} secondaryText={i.time && moment.unix(i.time).fromNow()}
+              <ListItem primaryText={i.content} secondaryText={moment.unix(i.time).fromNow()}
                         leftIcon={<ContentDrafts />} key={index}/>
             )}
           </List>
