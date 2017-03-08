@@ -9,7 +9,6 @@ import FloatingActionButton from "material-ui/FloatingActionButton";
 import FlatButton from "material-ui/FlatButton";
 import Dialog from "material-ui/Dialog";
 import TextField from "material-ui/TextField";
-import TouchRefresh from "components/touch_refresh";
 import "./home.less";
 
 class Home extends React.Component {
@@ -17,12 +16,40 @@ class Home extends React.Component {
     super();
     this.state = {
       list: [],
+      nextURL: '',
       dialogOpen: false
     }
   }
 
   componentWillMount () {
-    this.fetchData()
+    this.fetchData();
+  }
+
+  componentDidMount () {
+    let that = this;
+
+    document.addEventListener('touchmove', function (e) {
+      e.stopPropagation();
+      var clientH = document.body.clientHeight
+      var scrollTop = document.body.scrollTop
+      var scrollH = document.body.scrollHeight
+
+      if (clientH + scrollTop >= scrollH) {
+        if (that.state.nextURL) {
+          qnfetch(that.state.nextURL)
+            .then(res => res.json())
+            .then(data => {
+              const list = data.results;
+              that.setState({
+                ...that.state,
+                list: that.state.list.push(list),
+                nextURL: data.next
+              })
+            })
+            .catch(err => console.log(err))
+        }
+      }
+    }, false)
   }
 
   fetchData = () => {
@@ -31,8 +58,11 @@ class Home extends React.Component {
       .then(res => res.json())
       .then(data => {
         const list = data.results;
-        that.setState({list})
+        const nextURL = data.next;
+        that.setState({list, nextURL})
       })
+      .catch(err => console.log(err))
+
   }
 
   handleOpen = () => {
@@ -55,9 +85,9 @@ class Home extends React.Component {
     qnfetch(apiURL.Post_Message, params, 'POST')
       .then(res => res.json())
       .then(data => {
-
         this.setState({
           ...this.state,
+          list: this.state.list.push(data),
           dialogOpen: false
         })
       })
@@ -82,18 +112,22 @@ class Home extends React.Component {
     ];
 
     return (
-      <TouchRefresh action={this.fetchData}>
-        <AppBar
-          title="POST MAN"
-          iconClassNameRight="muidocs-icon-navigation-expand-more"
-        />
+      <div>
+        <div className='fixed-nav'>
+          <AppBar
+            title="POST MAN"
+            iconClassNameRight="muidocs-icon-navigation-expand-more"
+          />
+        </div>
 
-        <List>
-          {list.length > 0 && list.map((i, index) =>
-            <ListItem primaryText={i.content} secondaryText={moment.unix(i.time).fromNow()}
-                      leftIcon={<ContentDrafts />} key={index}/>
-          )}
-        </List>
+        <div className="message-list">
+          <List>
+            {list.length > 0 && list.map((i, index) =>
+              <ListItem primaryText={i.content} secondaryText={moment.unix(i.time).fromNow()}
+                        leftIcon={<ContentDrafts />} key={index}/>
+            )}
+          </List>
+        </div>
 
         <FloatingActionButton secondary={true} className="floating-button" onTouchTap={this.handleOpen}>
           <ContentAdd />
@@ -113,9 +147,10 @@ class Home extends React.Component {
             id="contentText"
           />
         </Dialog>
-      </TouchRefresh>
+      </div>
     )
   }
-};
+}
+;
 
 export default Home
