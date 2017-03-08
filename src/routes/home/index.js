@@ -15,6 +15,7 @@ class Home extends React.Component {
   constructor () {
     super();
     this.state = {
+      isFetching: false,
       list: [],
       nextURL: '',
       dialogOpen: false
@@ -28,22 +29,34 @@ class Home extends React.Component {
   componentDidMount () {
     let that = this;
 
-    document.addEventListener('touchmove', function (e) {
-      e.stopPropagation();
-      var clientH = document.body.clientHeight
+    this.refs['list'].addEventListener('touchmove', function (e) {
+      e.stopPropagation()
+      var clientH = document.documentElement.clientHeight
       var scrollTop = document.body.scrollTop
       var scrollH = document.body.scrollHeight
 
+      // 防止重复拉取
+      if (that.state.isFetching) {
+        return;
+      }
+
       if (clientH + scrollTop >= scrollH) {
         if (that.state.nextURL) {
+
+          that.setState({
+            ...that.state,
+            isFetching:true
+          })
+
           qnfetch(that.state.nextURL)
             .then(res => res.json())
             .then(data => {
               const list = data.results;
               that.setState({
                 ...that.state,
-                list: that.state.list.push(list),
-                nextURL: data.next
+                list: [...that.state.list,...list],
+                nextURL: data.next,
+                isFetching:false
               })
             })
             .catch(err => console.log(err))
@@ -53,7 +66,7 @@ class Home extends React.Component {
   }
 
   fetchData = () => {
-    let that = this
+    let that = this;
     qnfetch(apiURL.Get_Message_list)
       .then(res => res.json())
       .then(data => {
@@ -120,7 +133,7 @@ class Home extends React.Component {
           />
         </div>
 
-        <div className="message-list">
+        <div className="message-list" ref="list">
           <List>
             {list.length > 0 && list.map((i, index) =>
               <ListItem primaryText={i.content} secondaryText={i.time && moment.unix(i.time).fromNow()}
