@@ -1,7 +1,7 @@
 import React from "react";
 import {qnfetch, apiURL} from "assets/utils/request";
 import moment from "moment";
-import AppBar from "material-ui/AppBar";
+import AppBarFixed from "./appbar";
 import {List, ListItem} from "material-ui/List";
 import ContentDrafts from "material-ui/svg-icons/content/drafts";
 import ContentAdd from "material-ui/svg-icons/content/add";
@@ -112,12 +112,12 @@ class Home extends React.Component {
 
     const actions = [
       <FlatButton
-        label="取消"
+        label="Cancel"
         primary={true}
         onTouchTap={this.handleClose}
       />,
       <FlatButton
-        label="发送"
+        label="Send"
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.handleSend}
@@ -126,12 +126,7 @@ class Home extends React.Component {
 
     return (
       <div>
-        <div className='fixed-nav'>
-          <AppBar
-            title="POST MAN"
-            iconClassNameRight="muidocs-icon-navigation-expand-more"
-          />
-        </div>
+        <AppBarFixed />
 
         <div className="message-list" ref="list">
           <List>
@@ -153,8 +148,8 @@ class Home extends React.Component {
           onRequestClose={this.handleClose}
         >
           <TextField style={{width: '100%'}}
-            hintText="尽情吐槽吧"
-            floatingLabelText="你的留言"
+            hintText="Write what you think"
+            floatingLabelText="Yo man!"
             multiLine={true}
             rows={2}
             id="contentText"
