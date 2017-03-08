@@ -123,7 +123,7 @@ class Home extends React.Component {
         <div className="message-list">
           <List>
             {list.length > 0 && list.map((i, index) =>
-              <ListItem primaryText={i.content} secondaryText={moment.unix(i.time).fromNow()}
+              <ListItem primaryText={i.content} secondaryText={i.time && moment.unix(i.time).fromNow()}
                         leftIcon={<ContentDrafts />} key={index}/>
             )}
           </List>
