@@ -152,7 +152,7 @@ class Home extends React.Component {
           open={this.state.dialogOpen}
           onRequestClose={this.handleClose}
         >
-          <TextField
+          <TextField style={{width: '100%'}}
             hintText="尽情吐槽吧"
             floatingLabelText="你的留言"
             multiLine={true}
