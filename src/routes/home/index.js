@@ -40,7 +40,7 @@ class Home extends React.Component {
         return;
       }
 
-      if (clientH + scrollTop >= scrollH) {
+      if (clientH + scrollTop >= scrollH - 80) {
         if (that.state.nextURL) {
 
           that.setState({
