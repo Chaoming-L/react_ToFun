@@ -30,7 +30,7 @@ class Home extends React.Component {
     let that = this;
 
     this.refs['list'].addEventListener('touchmove', function (e) {
-      e.stopPropagation()
+
       var clientH = document.documentElement.clientHeight
       var scrollTop = document.body.scrollTop
       var scrollH = document.body.scrollHeight
@@ -62,7 +62,7 @@ class Home extends React.Component {
             .catch(err => console.log(err))
         }
       }
-    }, false)
+    }, true)
   }
 
   fetchData = () => {
