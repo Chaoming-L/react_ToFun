@@ -12,7 +12,6 @@
 确认好你的环境配置，然后就可以开始以下步骤。
 
 ```bash
-$ cd react-basic-framework
 $ npm install                   # 安装项目依赖
 $ npm start                     # 编译和运行
 ```
