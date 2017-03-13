@@ -1,7 +1,6 @@
 import React from "react";
 import {qnfetch, apiURL} from "assets/utils/request";
 import moment from "moment";
-import AppBarFixed from "./appbar";
 import {List, ListItem} from "material-ui/List";
 import ContentDrafts from "material-ui/svg-icons/content/drafts";
 import ContentAdd from "material-ui/svg-icons/content/add";
@@ -126,12 +125,12 @@ class Home extends React.Component {
 
     return (
       <div>
-        <AppBarFixed />
-
         <div className="message-list" ref="list">
           <List>
             {list.length > 0 && list.map((i, index) =>
-              <ListItem primaryText={i.content} secondaryText={moment.unix(i.time).fromNow()}
+              <ListItem primaryText={i.content}
+                        secondaryText={moment.unix(i.time).fromNow()}
+                        className="message-item"
                         leftIcon={<ContentDrafts />} key={index}/>
             )}
           </List>
