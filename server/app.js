@@ -3,7 +3,7 @@ const debug = require('debug')('app:server')
 const webpack = require('webpack')
 const webpackConfig = require('../config/lib/webpack.config')
 const config = require('../config/lib/env.config')
-
+const proxyMiddleware = require('http-proxy-middleware')
 
 const app = express()
 const paths = config.utils_paths
@@ -18,6 +18,12 @@ app.use(require('connect-history-api-fallback')())
  应用Webpack HMR中间件
  -------------------- */
 if (config.env === 'development') {
+  // 代理服务器
+  // app.use('/api/', proxyMiddleware({
+  //   target: 'http://www.selfcoding.cn',
+  //   changeOrigin: true,
+  // }))
+
   const compiler = webpack(webpackConfig)
 
   debug('启用webpack dev和HMR中间件')
@@ -33,6 +39,7 @@ if (config.env === 'development') {
     stats: config.compiler_stats // 格式化统计信息的选项
   }))
 
+
   // 代码热替换,开发环境使用
   app.use(require('webpack-hot-middleware')(compiler))
 
@@ -41,6 +48,7 @@ if (config.env === 'development') {
    这个中间件不需要在开发环境之外启用，因为当编译应用程序时，此目录将被复制到~/dist目录。
    -------------------- */
   app.use(express.static(paths.client('static')))
+
 } else {
   debug('服务器在实时开发模式之外运行，这意味着它将仅在~/dist目录中提供已编译的应用程序包。')
 
