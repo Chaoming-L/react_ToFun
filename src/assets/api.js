@@ -6,7 +6,7 @@ const api = {
   Post_Message: '/api/postmessage/'
 }
 
-const host = 'http://www.selfcoding.cn';
+const host = 'http://www.tofun.online';
 
 let apiURL = {};
 
