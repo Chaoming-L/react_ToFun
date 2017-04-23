@@ -2,30 +2,37 @@ import React from "react";
 import {qnfetch, apiURL} from "assets/utils/request";
 import moment from "moment";
 import {List, ListItem} from "material-ui/List";
-import ContentDrafts from "material-ui/svg-icons/content/drafts";
 import ContentAdd from "material-ui/svg-icons/content/add";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import FlatButton from "material-ui/FlatButton";
+import IconButton from "material-ui/IconButton";
 import Dialog from "material-ui/Dialog";
 import TextField from "material-ui/TextField";
+import MenuItem from 'material-ui/MenuItem';
+import IconMenu from 'material-ui/IconMenu';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
+import Snackbar from 'material-ui/Snackbar';
+
 import "./home.less";
 
 class Home extends React.Component {
-  constructor () {
+  constructor() {
     super();
     this.state = {
       isFetching: false,
       list: [],
       nextURL: '',
-      dialogOpen: false
+      dialogOpen: false,
+      snackbarOpen: false
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.fetchData();
   }
 
-  componentDidMount () {
+  componentDidMount() {
     let that = this;
 
     this.refs['list'].addEventListener('touchmove', function (e) {
@@ -44,7 +51,7 @@ class Home extends React.Component {
 
           that.setState({
             ...that.state,
-            isFetching:true
+            isFetching: true
           })
 
           qnfetch(that.state.nextURL)
@@ -53,9 +60,9 @@ class Home extends React.Component {
               const list = data.results;
               that.setState({
                 ...that.state,
-                list: [...that.state.list,...list],
+                list: [...that.state.list, ...list],
                 nextURL: data.next,
-                isFetching:false
+                isFetching: false
               })
             })
             .catch(err => console.log(err))
@@ -83,11 +90,35 @@ class Home extends React.Component {
       dialogOpen: true
     })
   }
+
   handleClose = () => {
     this.setState({
       ...this.state,
       dialogOpen: false
     })
+  }
+
+  handleCopy = (index) => {
+    const content = this.state.list[index].content
+    // 复制内容到剪切板
+    const input = document.getElementById('content')
+    input.value = content
+    input.focus()
+    input.select()
+    input.setSelectionRange(0, input.value.length)
+    document.execCommand('copy')
+    // 底部提示
+    this.setState({
+      ...this.state,
+      snackbarOpen: true
+    })
+  }
+
+  openLink = (URL) => {
+    const URLreg = /^http|https:\/\/.+/i
+    if (URLreg.test(URL)) {
+      window.open(URL, '_blank')
+    }
   }
 
   handleSend = () => {
@@ -106,7 +137,14 @@ class Home extends React.Component {
       .catch(err => console.log(err))
   }
 
-  render () {
+  onRequestClose = () => {
+    this.setState({
+      ...this.state,
+      snackbarOpen: false
+    })
+  }
+
+  render() {
     const list = this.state.list || [];
 
     const actions = [
@@ -123,15 +161,30 @@ class Home extends React.Component {
       />,
     ];
 
+    const iconButtonElement = (
+      <IconButton
+      >
+        <MoreVertIcon color={grey400}/>
+      </IconButton>
+    );
+
+
     return (
       <div>
         <div className="message-list" ref="list">
           <List>
             {list.length > 0 && list.map((i, index) =>
-              <ListItem primaryText={i.content}
+              <ListItem key={index}
+                        primaryText={i.content}
                         secondaryText={moment.unix(i.time).fromNow()}
                         className="message-item"
-                        leftIcon={<ContentDrafts />} key={index}/>
+                        onTouchTap={() => this.openLink(i.content)}
+                        rightIconButton={
+                          <IconMenu iconButtonElement={iconButtonElement}>
+                            <MenuItem key={index} onTouchTap={() => this.handleCopy(index)}>Copy</MenuItem>
+                          </IconMenu>
+                        }
+              />
             )}
           </List>
         </div>
@@ -147,13 +200,23 @@ class Home extends React.Component {
           onRequestClose={this.handleClose}
         >
           <TextField style={{width: '100%'}}
-            hintText="Write what you think"
-            floatingLabelText="Yo man!"
-            multiLine={true}
-            rows={2}
-            id="contentText"
+                     hintText="Write what you think"
+                     floatingLabelText="Yo man!"
+                     multiLine={true}
+                     rows={2}
+                     id="contentText"
           />
         </Dialog>
+        {/*剪切板内容 容器*/}
+        <input id="content" style={{position: 'fixed', zIndex: '-100', top: '0'}}/>
+
+        <Snackbar
+          open={this.state.snackbarOpen}
+          message="Copyied !"
+          autoHideDuration={1000}
+          onRequestClose={this.onRequestClose}
+        />
+
       </div>
     )
   }
