@@ -3,6 +3,8 @@ import AppBar from "material-ui/AppBar";
 import Drawer from "material-ui/Drawer";
 import List from "material-ui/List/List";
 import ListItem from "material-ui/List/ListItem";
+import {openLink} from "assets/utils/tool";
+
 
 class AppBarFixed extends React.Component {
   constructor (props) {
@@ -34,8 +36,8 @@ class AppBarFixed extends React.Component {
                 width={280}>
 
           <List>
-            <ListItem primaryText='Damon' secondaryText='https://github.com/chaoming56' onTouchTap={this.handleClose}/>
-            <ListItem primaryText='Ross' secondaryText='https://github.com/DevRoss' onTouchTap={this.handleClose}/>
+            <ListItem primaryText='Damon' secondaryText='https://github.com/chaoming56' onTouchTap={() => openLink('https://github.com/chaoming56')}/>
+            <ListItem primaryText='Ross' secondaryText='https://github.com/DevRoss' onTouchTap={() => openLink('https://github.com/DevRoss')}/>
           </List>
         </Drawer>
       </div>

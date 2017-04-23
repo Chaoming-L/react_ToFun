@@ -2,14 +2,10 @@
  * 传入一个数字,返回颜色对象
  * return 一个 obj
  */
-export function color (num) {
-  switch (true) {
-    case num == 0:
-      return {}
-    case num > 0:
-      return { color: '#fe5333' }   // 涨红色
-    case num < 0:
-      return { color: '#3caa00' }   // 跌绿色
+export function openLink (URL) {
+  const URLreg = /^http|https:\/\/.+/i
+  if (URLreg.test(URL)) {
+    window.open(URL, '_blank')
   }
 }
 

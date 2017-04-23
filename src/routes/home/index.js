@@ -1,5 +1,6 @@
 import React from "react";
 import {qnfetch, apiURL} from "assets/utils/request";
+import {openLink} from "assets/utils/tool";
 import moment from "moment";
 import {List, ListItem} from "material-ui/List";
 import ContentAdd from "material-ui/svg-icons/content/add";
@@ -114,13 +115,6 @@ class Home extends React.Component {
     })
   }
 
-  openLink = (URL) => {
-    const URLreg = /^http|https:\/\/.+/i
-    if (URLreg.test(URL)) {
-      window.open(URL, '_blank')
-    }
-  }
-
   handleSend = () => {
     const content = document.getElementById('contentText').value
     const params = {content}
@@ -178,7 +172,7 @@ class Home extends React.Component {
                         primaryText={i.content}
                         secondaryText={moment.unix(i.time).fromNow()}
                         className="message-item"
-                        onTouchTap={() => this.openLink(i.content)}
+                        onTouchTap={() => openLink(i.content)}
                         rightIconButton={
                           <IconMenu iconButtonElement={iconButtonElement}>
                             <MenuItem key={index} onTouchTap={() => this.handleCopy(index)}>Copy</MenuItem>
