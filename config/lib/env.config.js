@@ -46,9 +46,11 @@ const config = {
   },
   compiler_vendors: [
     'react',
+    'react-dom',
     'react-redux',
     'react-router',
-    'redux'
+    'redux',
+    'moment'
   ],
 
   /* --------------------
@@ -85,23 +87,9 @@ config.globals = {
   '__DEV__': config.env === 'development',
   '__PROD__': config.env === 'production',
   '__TEST__': config.env === 'test',
-  '__UAT__': config.env === 'uat',
-  '__COVERAGE__': !argv.watch && config.env === 'test',
-  '__BASENAME__': JSON.stringify(process.env.BASENAME || '')
+  '__GO__': config.env === 'go'
 }
 
-/* --------------------
- 验证依赖库
- -------------------- */
-const pkg = require('../../package.json')
-
-config.compiler_vendors = config.compiler_vendors.filter((dep) => {
-  if (pkg.dependencies[dep]) {
-    return true
-  }
-
-  debug(`在package.json中找不到“${dep}”包作为依赖；它不会包括在webpack供应商包中。考虑在~/config/index.js中从编译器供应商中删除它`)
-})
 
 /* --------------------
  公用工具

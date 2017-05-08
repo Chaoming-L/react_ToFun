@@ -22,21 +22,4 @@ export const createRoutes = (store) => ({
   ]
 })
 
-/*  注意：childRoutes可以分块或以其他方式
- 使用带有以下签名的getChildRoutes以编程方式加载：
-
- getChildRoutes (location, cb) {
- require.ensure([], (require) => {
- cb(null, [
- // Remove imports!
- require('./Counter').default(store)
- ])
- })
- }
-
- 但是，这不是代码拆分所必需的！它只是提供了一个用于异步路由定义的API。
- 你的代码拆分应该发生在路由`getComponent`函数内部，因为它只在路由存在
- 并匹配时调用。
- */
-
 export default createRoutes

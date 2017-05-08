@@ -6,12 +6,13 @@ const config = require('./env.config')
 const debug = require('debug')('app:webpack:config')
 const pxtorem = require('postcss-pxtorem')
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const paths = config.utils_paths
 const env = config.globals.NODE_ENV
 const __DEV__ = config.globals.__DEV__
 const __PROD__ = config.globals.__PROD__
 const __TEST__ = config.globals.__TEST__
-const __UAT__ = config.globals.__UAT__
+const __GO__ = config.globals.__GO__
 
 
 debug('正在创建配置')
@@ -43,8 +44,7 @@ const APP_ENTRY = paths.client('app.js')
 webpackConfig.entry = {
   app: __DEV__
     ? [APP_ENTRY].concat(`webpack-hot-middleware/client?path=${config.compiler_public_path}__webpack_hmr`)
-    : [APP_ENTRY],
-  vendor: config.compiler_vendors
+    : [APP_ENTRY]
 }
 
 /* --------------------
@@ -109,15 +109,33 @@ if (__DEV__) {
 /* 在测试期间不要拆分包，因为我们只需要导入一个包
  CommonsChunkPlugin插件，可以用于提取多个入口文件的公共脚本部分，然后生成一个common.js来方便多页面之间进行复用。 */
 if (!__TEST__) {
-  webpackConfig.plugins.push(
+  webpackConfig.plugins.concat([
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor']
+      names: 'vendor',
+      minChunks: ({resource}) => (
+        resource && resource.indexOf('node_modules') >= 0 && resource.match(/\.js$/)
+      )
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      async: 'common-in-lazy',
+      minChunks: ({resource} = {}) => (
+        resource &&
+        resource.includes('node_modules') &&
+        /axios/.test(resource)
+      ),
+    }),
+
+    new webpack.optimize.CommonsChunkPlugin({
+      async: 'used-twice',
+      minChunks: (module, count) => (
+        count >= 2
+      ),
     })
-  )
+  ])
 }
 
 /* --------------------
-    JS 和 JSON 加载器
+ JS 和 JSON 加载器
  -------------------- */
 webpackConfig.module.loaders = [{
   test: /\.(js|jsx)$/,
@@ -189,13 +207,22 @@ webpackConfig.postcss = [
  文件加载器
  -------------------- */
 webpackConfig.module.loaders.push(
-  { test: /\.woff(\?.*)?$/, loader: 'url?prefix=fonts/&name=[hash:base64:20].[ext]&limit=10000&mimetype=application/font-woff' },
-  { test: /\.woff2(\?.*)?$/, loader: 'url?prefix=fonts/&name=[hash:base64:20].[ext]&limit=10000&mimetype=application/font-woff2' },
-  { test: /\.otf(\?.*)?$/, loader: 'file?prefix=fonts/&name=[hash:base64:20].[ext]&limit=10000&mimetype=font/opentype' },
-  { test: /\.ttf(\?.*)?$/, loader: 'url?prefix=fonts/&name=[hash:base64:20].[ext]&limit=10000&mimetype=application/octet-stream' },
-  { test: /\.eot(\?.*)?$/, loader: 'file?prefix=fonts/&name=[hash:base64:20].[ext]' },
-  { test: /\.svg(\?.*)?$/, loader: 'url?prefix=fonts/&name=[hash:base64:20].[ext]&limit=10000&mimetype=image/svg+xml' },
-  { test: /\.(png|jpg|gif)$/, loader: 'url?limit=8192' } // 表示将所有小于8kb的图片都转为base64形式（其实应该说超过8kb的才使用 url-loader 来映射到文件，否则转为data url形式）。
+  {
+    test: /\.woff(\?.*)?$/,
+    loader: 'url?prefix=fonts/&name=[hash:base64:20].[ext]&limit=10000&mimetype=application/font-woff'
+  },
+  {
+    test: /\.woff2(\?.*)?$/,
+    loader: 'url?prefix=fonts/&name=[hash:base64:20].[ext]&limit=10000&mimetype=application/font-woff2'
+  },
+  {test: /\.otf(\?.*)?$/, loader: 'file?prefix=fonts/&name=[hash:base64:20].[ext]&limit=10000&mimetype=font/opentype'},
+  {
+    test: /\.ttf(\?.*)?$/,
+    loader: 'url?prefix=fonts/&name=[hash:base64:20].[ext]&limit=10000&mimetype=application/octet-stream'
+  },
+  {test: /\.eot(\?.*)?$/, loader: 'file?prefix=fonts/&name=[hash:base64:20].[ext]'},
+  {test: /\.svg(\?.*)?$/, loader: 'url?prefix=fonts/&name=[hash:base64:20].[ext]&limit=10000&mimetype=image/svg+xml'},
+  {test: /\.(png|jpg|gif)$/, loader: 'url?limit=8192'} // 表示将所有小于8kb的图片都转为base64形式（其实应该说超过8kb的才使用 url-loader 来映射到文件，否则转为data url形式）。
 )
 
 /* --------------------
@@ -222,6 +249,12 @@ if (!__DEV__) {
     new ExtractTextPlugin('[name].[contenthash].css', {
       allChunks: true
     })
+  )
+}
+
+if (__GO__) {
+  webpackConfig.plugins.push(
+    new BundleAnalyzerPlugin()
   )
 }
 
