@@ -5,6 +5,7 @@
 import CoreLayout from "../layouts/CoreLayout";
 // 主路由
 import Home from "./home";
+import login from  './login'
 // 错误处理路由
 import PageNotFound from "./PageNotFound";
 import Redirect from "./PageNotFound/redirect";
@@ -17,6 +18,10 @@ export const createRoutes = (store) => ({
   component: CoreLayout,
   indexRoute: {component: Home},
   childRoutes: [
+    {
+      path: 'login',
+      component: login
+    },
     PageNotFound(),
     Redirect
   ]

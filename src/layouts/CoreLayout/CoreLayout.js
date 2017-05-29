@@ -1,5 +1,5 @@
 import React from "react";
-import AppBarFixed from "./appbar";
+import AppBarFixed from "../../components/appbar";
 import "./CoreLayout.less";
 import "assets/css/main.less";
 

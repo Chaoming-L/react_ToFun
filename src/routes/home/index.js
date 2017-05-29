@@ -36,12 +36,11 @@ class Home extends React.Component {
   componentDidMount() {
     let that = this;
 
-    this.refs['list'].addEventListener('touchmove', function (e) {
-
+    function handlerUpdateData() {
       var clientH = document.documentElement.clientHeight
       var scrollTop = document.body.scrollTop
       var scrollH = document.body.scrollHeight
-
+      console.log(scrollH)
       // 防止重复拉取
       if (that.state.isFetching) {
         return;
@@ -69,7 +68,12 @@ class Home extends React.Component {
             .catch(err => console.log(err))
         }
       }
-    }, true)
+    }
+
+    // 监听手指触摸
+    this.refs['list'].addEventListener('touchmove', handlerUpdateData, { passive: true })
+    // 监听滚动条
+    window.addEventListener('scroll', handlerUpdateData, true)
   }
 
   fetchData = () => {
