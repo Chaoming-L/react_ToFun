@@ -61,9 +61,9 @@ dependencies:
 |`react-spinkit`|react加载动画组件库。[更多](https://github.com/KyleAMathews/react-spinkit)|
 |`react`|react库。[更多](https://www.npmjs.com/package/react)|
 |`react-dom`|react-dom库。[更多](https://www.npmjs.com/package/react-dom)|
-|`react-redux`|react-redux库。[更多](https://www.npmjs.com/package/react-redux)|
+|`react-modules`|react-redux库。[更多](https://www.npmjs.com/package/react-redux)|
 |`react-router`|react-router库。[更多](https://www.npmjs.com/package/react-router)|
-|`redux`|redux库[更多](https://www.npmjs.com/package/redux)|
+|`modules`|redux库[更多](https://www.npmjs.com/package/redux)|
 |`webpack`|前端打包工具[更多](https://www.npmjs.com/package/webpack)|
 |`yargs`|命令行扩展[更多](https://www.npmjs.com/package/yargs)|
 |`rimraf`|node环境下一个深度删除文件模块[更多](https://www.npmjs.com/package/rimraf)|
