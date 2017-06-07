@@ -31,7 +31,7 @@ export default class CardItem extends React.PureComponent {
 
   render() {
     const {server_name, ip, port, password, region, encrypt_method, ss_link} = this.props
-
+    const tirmName = server_name.substr(0,1).toLocaleUpperCase()
     return (
       <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
         <CardHeader
@@ -43,7 +43,7 @@ export default class CardItem extends React.PureComponent {
               backgroundColor={getRandomColor()}
               size={30}
               style={style}
-            >A</Avatar>
+            >{tirmName}</Avatar>
           }
           actAsExpander={true}
           showExpandableButton={true}

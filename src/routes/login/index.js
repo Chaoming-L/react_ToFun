@@ -2,11 +2,12 @@ import React from 'react'
 import { qnfetch, apiURL } from 'assets/utils/request'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+import { browserHistory } from 'react-router'
 
 import './login.less'
 
 class Login extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -25,6 +26,7 @@ class Login extends React.Component {
             const Token = data.Token
             // 写入token
             localStorage.setItem('Token', Token);
+            browserHistory.replace('/ss_page')
           } else {
             alert(data.detail)
           }
@@ -39,7 +41,7 @@ class Login extends React.Component {
     })
   }
 
-  render () {
+  render() {
     return (
       <div className="login-page">
         <TextField hintText="username" value={this.state.username} name="username" onChange={this._handleChange}/>

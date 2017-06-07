@@ -28,7 +28,9 @@ export function fetchWithToken(url) {
       },
     })
   } else {
-    alert('重新登录吧')
+    return new Promise((resolve, reject) => {
+      reject('重新登录吧')
+    })
   }
 }
 
