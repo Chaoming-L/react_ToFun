@@ -24,7 +24,7 @@ const config = {
    服务端配置
    -------------------- */
   server_host: ip.address(), // 使用localhost可防止本地ip地址曝光
-  server_port: process.env.PORT || 8000, // 端口号
+  server_port: process.env.PORT || 5656, // 端口号
 
   /* --------------------
    编译配置
