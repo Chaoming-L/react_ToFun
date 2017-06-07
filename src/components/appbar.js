@@ -1,23 +1,31 @@
-import React from "react";
-import AppBar from "material-ui/AppBar";
-import Drawer from "material-ui/Drawer";
-import List from "material-ui/List/List";
-import ListItem from "material-ui/List/ListItem";
-import {openLink} from "assets/utils/tool";
+import React from 'react'
+import AppBar from 'material-ui/AppBar'
+import Drawer from 'material-ui/Drawer'
+import List from 'material-ui/List/List'
+import ListItem from 'material-ui/List/ListItem'
+import { openLink } from 'assets/utils/tool'
+import Account from 'material-ui/svg-icons/action/account-circle'
+import { browserHistory } from 'react-router'
 
+import './appbar.less'
 
 class AppBarFixed extends React.Component {
   constructor (props) {
-    super(props);
-    this.state = {open: false};
+    super(props)
+    this.state = {open: false}
   }
 
   titleCSS = {
     textAlign: 'center'
   }
 
-  handleToggle = () => this.setState({open: !this.state.open});
-  handleClose = () => this.setState({open: false});
+  handleToggle = () => this.setState({open: !this.state.open})
+  handleClose = () => this.setState({open: false})
+
+  _gotoLogin = () => {
+    browserHistory.push('/login')
+    this.handleClose()
+  }
 
   render () {
     return (
@@ -35,9 +43,16 @@ class AppBarFixed extends React.Component {
                 docked={false}
                 width={280}>
 
-          <List>
-            <ListItem primaryText='Damon' secondaryText='https://github.com/chaoming56' onTouchTap={() => openLink('https://github.com/chaoming56')}/>
-            <ListItem primaryText='Ross' secondaryText='https://github.com/DevRoss' onTouchTap={() => openLink('https://github.com/DevRoss')}/>
+          <div className="login-btn" onTouchTap={this._gotoLogin}>
+            <Account className="login-icon"/>
+          </div>
+
+          <List className="about-me">
+            <div className="author">Author:</div>
+            <ListItem primaryText='Damon' secondaryText='https://github.com/chaoming56'
+                      onTouchTap={() => openLink('https://github.com/chaoming56')}/>
+            <ListItem primaryText='Ross' secondaryText='https://github.com/DevRoss'
+                      onTouchTap={() => openLink('https://github.com/DevRoss')}/>
           </List>
         </Drawer>
       </div>

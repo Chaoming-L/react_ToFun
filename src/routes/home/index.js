@@ -40,7 +40,6 @@ class Home extends React.Component {
       var clientH = document.documentElement.clientHeight
       var scrollTop = document.body.scrollTop
       var scrollH = document.body.scrollHeight
-      console.log(scrollH)
       // 防止重复拉取
       if (that.state.isFetching) {
         return;
