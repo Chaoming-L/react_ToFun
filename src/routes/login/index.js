@@ -23,6 +23,7 @@ class Login extends React.Component {
         .then(data => {
           if (data.error_code == 0) {
             const Token = data.Token
+            // 写入token
             localStorage.setItem('Token', Token);
           } else {
             alert(data.detail)
