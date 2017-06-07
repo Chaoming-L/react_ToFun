@@ -4,7 +4,10 @@
 const api = {
   Get_Message_list: '/api/messagelist/',
   Post_Message: '/api/postmessage/',
-  Login :'/api/userlogin'
+  Login :'/api/userlogin',
+  Logout: '/api/userlogout',
+  Getss: '/api/getss',
+  Addss: '/api/addss'
 }
 
 const host = 'http://www.tofun.online';
