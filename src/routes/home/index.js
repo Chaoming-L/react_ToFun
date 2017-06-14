@@ -14,6 +14,8 @@ import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
+import setTitle from 'hoc/set_app_title';
+
 
 import "./home.less";
 
@@ -31,6 +33,7 @@ class Home extends React.Component {
 
   componentWillMount() {
     this.fetchData();
+    // this.props.setAppTitle('3333')
   }
 
   componentDidMount() {
@@ -220,4 +223,4 @@ class Home extends React.Component {
 }
 ;
 
-export default Home
+export default setTitle('TOFUN',Home)

@@ -2,10 +2,12 @@
  * Created by Damon on 2017/5/29.
  */
 import React from 'react'
+import { connect }from 'react-redux'
 import CardItem from './card_item'
 import { fetchWithToken, apiURL } from 'assets/utils/request'
+import { setAppTitle } from 'modules/app_bar'
 
-export  default class SsPage extends React.Component {
+class SsPage extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -17,6 +19,8 @@ export  default class SsPage extends React.Component {
 
   componentWillMount () {
     this.fetchData()
+    // 设置appbar title
+    this.props.setAppTitle('Shadow Socks')
   }
 
   fetchData = () => {
@@ -36,10 +40,16 @@ export  default class SsPage extends React.Component {
     const {ssList} = this.state
     return (
       <div>
-        {ssList.map( (item, index) => (
+        {ssList.map((item, index) => (
           <CardItem {...item} key={index}/>
         ))}
       </div>
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  setAppTitle: (title) => dispatch(setAppTitle(title))
+})
+
+export  default connect(null, mapDispatchToProps)(SsPage)

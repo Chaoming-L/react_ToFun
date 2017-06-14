@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { browserHistory } from 'react-router'
 import { login } from 'modules/app_bar'
 import { connect }from 'react-redux'
+import setTitle from 'hoc/set_app_title';
 
 import './login.less'
 
@@ -64,4 +65,4 @@ const mapDispatchToProps = (dispatch) => ({
   login: () => dispatch(login())
 })
 
-export default connect(null,mapDispatchToProps)(Login)
+export default connect(null,mapDispatchToProps)(setTitle('LOGIN',Login))

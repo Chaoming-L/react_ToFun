@@ -41,6 +41,8 @@ class AppBarFixed extends React.Component {
           localStorage.removeItem('Token')
           // 通知store 用户已经登出
           logout()
+          browserHistory.replace('/')
+          this.handleClose()
         } else {
           alert(response.detail)
         }
@@ -49,13 +51,13 @@ class AppBarFixed extends React.Component {
   }
 
   render () {
-    const {isLogin} = this.props
+    const {isLogin, appTitle} = this.props
 
     return (
       <div>
         <div className='fixed-nav'>
           <AppBar
-            title="TOFUN" titleStyle={this.titleCSS}
+            title={appTitle} titleStyle={this.titleCSS}
             iconClassNameRight="muidocs-icon-navigation-expand-more"
             onLeftIconButtonTouchTap={this.handleToggle}
           />
@@ -86,8 +88,8 @@ class AppBarFixed extends React.Component {
   }
 }
 
-const mapStateToProps = ({appBar: {isLogin}}) => ({
-  isLogin
+const mapStateToProps = ({appBar}) => ({
+  ...appBar
 })
 
 const mapDispatchToProps = (dispatch) => ({
