@@ -57,7 +57,8 @@ export default class CardItem extends React.PureComponent {
         <CardText expandable={true}>
           password: {password} <br/>
           region: {region} <br/>
-          encrypt_method: {encrypt_method}
+          encrypt_method: {encrypt_method} <br/>
+          ss_uri: {ss_uri}
         </CardText>
       </Card>
     );

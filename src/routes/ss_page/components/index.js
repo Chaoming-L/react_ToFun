@@ -20,7 +20,7 @@ class SsPage extends React.Component {
   componentWillMount () {
     this.fetchData()
     // 设置appbar title
-    this.props.setAppTitle('Shadow Socks')
+    this.props.setAppTitle('Shadowsocks')
   }
 
   fetchData = () => {
