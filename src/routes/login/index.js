@@ -3,11 +3,13 @@ import { qnfetch, apiURL } from 'assets/utils/request'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import { browserHistory } from 'react-router'
+import { login } from 'modules/app_bar'
+import { connect }from 'react-redux'
 
 import './login.less'
 
 class Login extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -18,6 +20,8 @@ class Login extends React.Component {
 
   _handleLogin = () => {
     const {username, password} = this.state
+    const {login} = this.props
+
     if (username && password) {
       qnfetch(apiURL.Login, {username, password}, 'POST')
         .then(data => data.json())
@@ -25,7 +29,10 @@ class Login extends React.Component {
           if (data.error_code == 0) {
             const Token = data.Token
             // 写入token
-            localStorage.setItem('Token', Token);
+            localStorage.setItem('Token', Token)
+            // 通知store 用户登陆了
+            login()
+
             browserHistory.replace('/ss_page')
           } else {
             alert(data.detail)
@@ -41,7 +48,7 @@ class Login extends React.Component {
     })
   }
 
-  render() {
+  render () {
     return (
       <div className="login-page">
         <TextField hintText="username" value={this.state.username} name="username" onChange={this._handleChange}/>
@@ -52,4 +59,9 @@ class Login extends React.Component {
   }
 }
 
-export default Login
+
+const mapDispatchToProps = (dispatch) => ({
+  login: () => dispatch(login())
+})
+
+export default connect(null,mapDispatchToProps)(Login)

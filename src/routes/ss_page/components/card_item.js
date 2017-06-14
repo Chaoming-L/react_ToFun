@@ -30,7 +30,7 @@ export default class CardItem extends React.PureComponent {
   };
 
   render() {
-    const {server_name, ip, port, password, region, encrypt_method, ss_link} = this.props
+    const {server_name, ip, port, password, region, encrypt_method, qr_code, ss_uri} = this.props
     const tirmName = server_name.substr(0,1).toLocaleUpperCase()
     return (
       <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
@@ -52,7 +52,7 @@ export default class CardItem extends React.PureComponent {
         <CardMedia
           expandable={true}
         >
-          <img src={ss_link}/>
+          <img src={qr_code} alt="qr_code"/>
         </CardMedia>
         <CardText expandable={true}>
           password: {password} <br/>
