@@ -6,12 +6,16 @@ import List from 'material-ui/List/List'
 import ListItem from 'material-ui/List/ListItem'
 import { openLink } from 'assets/utils/tool'
 import Account from 'material-ui/svg-icons/action/account-circle'
+import IconButton from 'material-ui/IconButton';
+import Home from 'material-ui/svg-icons/action/home'
 import Out from 'material-ui/svg-icons/maps/directions-run'
 import { browserHistory } from 'react-router'
 import { fetchWithToken, apiURL } from 'assets/utils/request'
 import { logout } from 'modules/app_bar'
 
 import './appbar.less'
+
+
 
 class AppBarFixed extends React.Component {
   constructor (props) {
@@ -25,6 +29,8 @@ class AppBarFixed extends React.Component {
 
   handleToggle = () => this.setState({open: !this.state.open})
   handleClose = () => this.setState({open: false})
+
+  _goHome = () => browserHistory.replace('/')
 
   _gotoLogin = () => {
     browserHistory.push('/login')
@@ -58,8 +64,10 @@ class AppBarFixed extends React.Component {
         <div className='fixed-nav'>
           <AppBar
             title={appTitle} titleStyle={this.titleCSS}
-            iconClassNameRight="muidocs-icon-navigation-expand-more"
             onLeftIconButtonTouchTap={this.handleToggle}
+            onRightIconButtonTouchTap={this._goHome}
+            iconElementRight={<IconButton><Home/></IconButton>}
+
           />
         </div>
 
