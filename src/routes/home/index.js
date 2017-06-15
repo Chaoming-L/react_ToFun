@@ -33,7 +33,6 @@ class Home extends React.Component {
 
   componentWillMount() {
     this.fetchData();
-    // this.props.setAppTitle('3333')
   }
 
   componentDidMount() {
