@@ -52,8 +52,8 @@ class Login extends React.Component {
   render () {
     return (
       <div className="login-page">
-        <TextField hintText="username" value={this.state.username} name="username" onChange={this._handleChange}/>
-        <TextField hintText="password" value={this.state.password} name="password" onChange={this._handleChange}/>
+        <TextField hintText="username" value={this.state.username} name="username" type="text" onChange={this._handleChange}/>
+        <TextField hintText="password" value={this.state.password} name="password" type="password" onChange={this._handleChange}/>
         <RaisedButton label="Login" primary={true} onTouchTap={this._handleLogin}/>
       </div>
     )
