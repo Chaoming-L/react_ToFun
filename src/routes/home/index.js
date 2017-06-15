@@ -1,26 +1,27 @@
-import React from 'react'
-import { qnfetch, apiURL } from 'assets/utils/request'
-import { openLink } from 'assets/utils/tool'
-import moment from 'moment'
-import { List, ListItem } from 'material-ui/List'
-import ContentAdd from 'material-ui/svg-icons/content/add'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
-import FlatButton from 'material-ui/FlatButton'
-import IconButton from 'material-ui/IconButton'
-import Dialog from 'material-ui/Dialog'
-import TextField from 'material-ui/TextField'
-import MenuItem from 'material-ui/MenuItem'
-import IconMenu from 'material-ui/IconMenu'
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors'
-import Snackbar from 'material-ui/Snackbar'
-import setTitle from 'hoc/set_app_title'
+import React from "react";
+import {qnfetch, apiURL} from "assets/utils/request";
+import {openLink} from "assets/utils/tool";
+import moment from "moment";
+import {List, ListItem} from "material-ui/List";
+import ContentAdd from "material-ui/svg-icons/content/add";
+import FloatingActionButton from "material-ui/FloatingActionButton";
+import FlatButton from "material-ui/FlatButton";
+import IconButton from "material-ui/IconButton";
+import Dialog from "material-ui/Dialog";
+import TextField from "material-ui/TextField";
+import MenuItem from 'material-ui/MenuItem';
+import IconMenu from 'material-ui/IconMenu';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
+import Snackbar from 'material-ui/Snackbar';
+import setTitle from 'hoc/set_app_title';
 
-import './home.less'
+
+import "./home.less";
 
 class Home extends React.Component {
-  constructor () {
-    super()
+  constructor() {
+    super();
     this.state = {
       isFetching: false,
       list: [],
@@ -30,63 +31,60 @@ class Home extends React.Component {
     }
   }
 
-  componentWillMount () {
-    this.fetchData()
+  componentWillMount() {
+    this.fetchData();
+    // this.props.setAppTitle('3333')
   }
 
-  handlerUpdateData () {
-    var that = this
-    var clientH = document.documentElement.clientHeight
-    var scrollTop = document.body.scrollTop
-    var scrollH = document.body.scrollHeight
-    // 防止重复拉取
-    if (that.state.isFetching) {
-      return
-    }
+  componentDidMount() {
+    let that = this;
 
-    if (clientH + scrollTop >= scrollH - 80) {
-      if (that.state.nextURL) {
+    function handlerUpdateData() {
+      var clientH = document.documentElement.clientHeight
+      var scrollTop = document.body.scrollTop
+      var scrollH = document.body.scrollHeight
+      // 防止重复拉取
+      if (that.state.isFetching) {
+        return;
+      }
 
-        that.setState({
-          ...that.state,
-          isFetching: true
-        })
+      if (clientH + scrollTop >= scrollH - 80) {
+        if (that.state.nextURL) {
 
-        qnfetch(that.state.nextURL)
-          .then(res => res.json())
-          .then(data => {
-            const list = data.results
-            that.setState({
-              ...that.state,
-              list: [...that.state.list, ...list],
-              nextURL: data.next,
-              isFetching: false
-            })
+          that.setState({
+            ...that.state,
+            isFetching: true
           })
-          .catch(err => console.log(err))
+
+          qnfetch(that.state.nextURL)
+            .then(res => res.json())
+            .then(data => {
+              const list = data.results;
+              that.setState({
+                ...that.state,
+                list: [...that.state.list, ...list],
+                nextURL: data.next,
+                isFetching: false
+              })
+            })
+            .catch(err => console.log(err))
+        }
       }
     }
-  }
 
-  componentDidMount () {
     // 监听手指触摸
-    this.refs['list'].addEventListener('touchmove', () => this.handlerUpdateData(), {passive: true})
+    this.refs['list'].addEventListener('touchmove', handlerUpdateData, { passive: true })
     // 监听滚动条
-    window.addEventListener('scroll', () => this.handlerUpdateData(), true)
-  }
-
-  componentWillUnmount () {
-    this.refs['list'].removeEventListener('touchmove', () => this.handlerUpdateData(), {passive: true})
-    window.removeEventListener('scroll', () => this.handlerUpdateData(), true)
+    window.addEventListener('scroll', handlerUpdateData, true)
   }
 
   fetchData = () => {
-    let that = this
+    let that = this;
     qnfetch(apiURL.Get_Message_list)
       .then(res => res.json())
       .then(data => {
-        const list = data.results
-        const nextURL = data.next
+        const list = data.results;
+        const nextURL = data.next;
         that.setState({list, nextURL})
       })
       .catch(err => console.log(err))
@@ -146,8 +144,8 @@ class Home extends React.Component {
     })
   }
 
-  render () {
-    const list = this.state.list || []
+  render() {
+    const list = this.state.list || [];
 
     const actions = [
       <FlatButton
@@ -161,14 +159,15 @@ class Home extends React.Component {
         keyboardFocused={true}
         onTouchTap={this.handleSend}
       />,
-    ]
+    ];
 
     const iconButtonElement = (
       <IconButton
       >
         <MoreVertIcon color={grey400}/>
       </IconButton>
-    )
+    );
+
 
     return (
       <div>
@@ -222,6 +221,6 @@ class Home extends React.Component {
     )
   }
 }
+;
 
-
-export default setTitle('TOFUN', Home)
+export default setTitle('TOFUN',Home)
