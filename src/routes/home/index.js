@@ -12,7 +12,7 @@ import TextField from "material-ui/TextField";
 import MenuItem from 'material-ui/MenuItem';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
+import {grey400} from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
 import setTitle from 'hoc/set_app_title';
 
