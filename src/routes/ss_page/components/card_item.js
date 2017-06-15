@@ -1,9 +1,9 @@
 /**
  * Created by Damon on 2017/5/29.
  */
-import React from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import Avatar from 'material-ui/Avatar';
+import React from 'react'
+import { Card, CardHeader, CardMedia, CardText } from 'material-ui/Card'
+import Avatar from 'material-ui/Avatar'
 import {
   blue300,
   lightGreenA400,
@@ -11,27 +11,32 @@ import {
   red900,
   deepPurple600,
   pink600
-} from 'material-ui/styles/colors';
-const colors = [blue300, lightGreenA400, deepOrange400, red900, deepPurple600, pink600];
-const style = {margin: 5};
+} from 'material-ui/styles/colors'
+
+import './card_item.less'
+
+const colors = [blue300, lightGreenA400, deepOrange400, red900, deepPurple600, pink600]
+const style = {margin: 5}
 const getRandomColor = () => colors[Math.ceil(Math.random() * 5)]
 
 export default class CardItem extends React.PureComponent {
 
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       expanded: false,
-    };
+    }
   }
 
-  handleExpandChange = (expanded) => {
-    this.setState({expanded: expanded});
-  };
+  textColor = getRandomColor()
 
-  render() {
+  handleExpandChange = (expanded) => {
+    this.setState({expanded: expanded})
+  }
+
+  render () {
     const {server_name, ip, port, password, region, encrypt_method, qr_code, ss_uri} = this.props
-    const tirmName = server_name.substr(0,1).toLocaleUpperCase()
+    const tirmName = server_name.substr(0, 1).toLocaleUpperCase()
     return (
       <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
         <CardHeader
@@ -40,7 +45,7 @@ export default class CardItem extends React.PureComponent {
           avatar={
             <Avatar
               color='#fff'
-              backgroundColor={getRandomColor()}
+              backgroundColor={this.textColor}
               size={30}
               style={style}
             >{tirmName}</Avatar>
@@ -49,18 +54,17 @@ export default class CardItem extends React.PureComponent {
           showExpandableButton={true}
         />
 
-        <CardMedia
-          expandable={true}
-        >
-          <img src={qr_code} alt="qr_code"/>
+        <CardMedia expandable={true} className="qr-code">
+          <img src={qr_code} alt="qr_code" />
         </CardMedia>
-        <CardText expandable={true}>
+
+        <CardText expandable={true} className="card-text">
           password: {password} <br/>
           region: {region} <br/>
           encrypt_method: {encrypt_method} <br/>
-          ss_uri: {ss_uri}
+          ss_uri: <small>{ss_uri}</small>
         </CardText>
       </Card>
-    );
+    )
   }
 }
