@@ -10,7 +10,7 @@ const api = {
   Addss: '/api/addss'
 }
 
-const host = 'http://tofun.selfcoding.cn';
+const host = 'http://123.207.34.114';
 
 let apiURL = {};
 
