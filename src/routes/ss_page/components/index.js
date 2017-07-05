@@ -7,7 +7,8 @@ import CardItem from './card_item'
 import { fetchWithToken, apiURL } from 'assets/utils/request'
 import setTitle from 'hoc/set_app_title';
 
-class SsPage extends React.Component {
+@setTitle('Shadowsocks')
+export default class SsPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -45,5 +46,3 @@ class SsPage extends React.Component {
     )
   }
 }
-
-export default setTitle('Shadowsocks')(SsPage)

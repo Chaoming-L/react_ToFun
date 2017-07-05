@@ -6,10 +6,17 @@ import { browserHistory } from 'react-router'
 import { login } from 'modules/app_bar'
 import { connect }from 'react-redux'
 import setTitle from 'hoc/set_app_title';
-
 import './login.less'
 
-class Login extends React.Component {
+
+
+@connect(null, 
+(dispatch) => ({
+  login: () => dispatch(login())
+})
+)
+@setTitle('LOGIN')
+export default class Login extends React.Component {
   constructor (props) {
     super(props)
 
@@ -59,10 +66,3 @@ class Login extends React.Component {
     )
   }
 }
-
-
-const mapDispatchToProps = (dispatch) => ({
-  login: () => dispatch(login())
-})
-
-export default connect(null,mapDispatchToProps)(setTitle('LOGIN')(Login))

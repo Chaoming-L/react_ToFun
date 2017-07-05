@@ -15,11 +15,10 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import {grey400} from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
 import setTitle from 'hoc/set_app_title';
-
-
 import "./home.less";
 
-class Home extends React.Component {
+@setTitle('TOFUN')
+export default class Home extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -220,6 +219,3 @@ class Home extends React.Component {
     )
   }
 }
-;
-
-export default setTitle('TOFUN',Home)
