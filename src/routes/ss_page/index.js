@@ -3,10 +3,16 @@
  */
 export default (store) => ({
   path: 'ss_page',
+  indexRoute: {
+    onEnter (nextState, replace) {
+      if(!localStorage.getItem('Token')) {
+        replace('/404')
+      }
+    }
+  },
   getComponent (nextState, cb) {
     require.ensure([], (require) => {
       const Index = require('./components/index').default         //页面入口
-
       cb(null, Index)
     })
   }

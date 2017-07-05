@@ -6,12 +6,11 @@ class PageNotFound extends Component {
   render () {
     const props = this.props
     return (
-      <div className='text-center'>
-        <h1>Page not found!!!</h1>
+      <div style={{textAlign: 'center'}}>
+        <h1>Page not found!</h1>
         <h3>
-          <a className={classes.link} onClick={props.router.goBack}>Back</a>
+          <button onClick={props.router.goBack}>Back</button>
         </h3>
-        <img src={NotFoundImage} />
       </div>
     )
   }
