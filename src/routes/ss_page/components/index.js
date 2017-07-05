@@ -2,13 +2,13 @@
  * Created by Damon on 2017/5/29.
  */
 import React from 'react'
-import { connect }from 'react-redux'
+import { connect } from 'react-redux'
 import CardItem from './card_item'
 import { fetchWithToken, apiURL } from 'assets/utils/request'
-import { setAppTitle } from 'modules/app_bar'
+import setTitle from 'hoc/set_app_title';
 
 class SsPage extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       ssList: [],
@@ -17,10 +17,8 @@ class SsPage extends React.Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.fetchData()
-    // 设置appbar title
-    this.props.setAppTitle('Shadowsocks')
   }
 
   fetchData = () => {
@@ -30,26 +28,22 @@ class SsPage extends React.Component {
       .then(data => {
         const ssList = data.results
         const nextURL = data.next
-        that.setState({ssList, nextURL})
+        that.setState({ ssList, nextURL })
       })
       .catch(err => console.log(err))
 
   }
 
-  render () {
-    const {ssList} = this.state
+  render() {
+    const { ssList } = this.state
     return (
       <div>
         {ssList.map((item, index) => (
-          <CardItem {...item} key={index}/>
+          <CardItem {...item} key={index} />
         ))}
       </div>
     )
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  setAppTitle: (title) => dispatch(setAppTitle(title))
-})
-
-export  default connect(null, mapDispatchToProps)(SsPage)
+export default setTitle('Shadowsocks')(SsPage)

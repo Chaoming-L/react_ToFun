@@ -6,7 +6,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { setAppTitle } from 'modules/app_bar'
 
-const setTitle = (title, ChildComponentClass) => {
+const setTitle = title => ChildComponentClass => {
   class Container extends React.Component {
     componentWillMount () {
       this.props.setAppTitle(title)
