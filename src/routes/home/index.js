@@ -17,7 +17,7 @@ import Snackbar from 'material-ui/Snackbar';
 import setTitle from 'hoc/set_app_title';
 import "./home.less";
 
-@setTitle('TOFUN')
+@setTitle('🐸ToFun')
 export default class Home extends React.Component {
   constructor() {
     super();

@@ -97,9 +97,9 @@ class AppBarFixed extends React.Component {
 
           <List className="about-me">
             <div className="author">Author:</div>
-            <ListItem primaryText='Damon' secondaryText='https://github.com/chaoming56'
+            <ListItem primaryText='🐦Damon' secondaryText='https://github.com/chaoming56'
                       onTouchTap={() => openLink('https://github.com/chaoming56')}/>
-            <ListItem primaryText='Ross' secondaryText='https://github.com/DevRoss'
+            <ListItem primaryText='🐮Ross' secondaryText='https://github.com/DevRoss'
                       onTouchTap={() => openLink('https://github.com/DevRoss')}/>
           </List>
         </Drawer>
