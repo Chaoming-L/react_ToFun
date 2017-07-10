@@ -57,6 +57,13 @@ webpackConfig.output = {
   publicPath: config.compiler_public_path
 }
 
+/*-----------------------
+ 外部扩展(这些库通过CDN引入)
+ -----------------------*/
+webpackConfig.externals = {
+  'echarts': 'echarts'
+}
+
 /* --------------------
  插件项
  -------------------- */
