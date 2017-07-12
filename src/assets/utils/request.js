@@ -1,6 +1,7 @@
 import 'babel-polyfill'
 import fetch from 'isomorphic-fetch'
 import api from '../api'
+import pvAPI from '../pvAPI'
 
 export function qnfetch(url, datas = {}, method = 'GET') {
   if (method === 'GET') {
@@ -35,3 +36,4 @@ export function fetchWithToken(url) {
 }
 
 export const apiURL = api;
+export const pvURL = pvAPI;

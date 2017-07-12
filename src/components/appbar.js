@@ -93,7 +93,7 @@ class AppBarFixed extends React.Component {
 
           {/* 登陆/登出 按钮 */ this.renderLoginBtn(isLogin)}
           {/* shadowsocks 按钮 */ this.renderSSbtn(isLogin)}
-          <div className="block-btn charts-page" onTouchTap={() => this._gotoThisPage('/chart_page')}>
+          <div className="block-btn charts-page" onTouchTap={() => this._gotoThisPage('/charts_page')}>
             <ShowChart className="block-icon" />
           </div>
 

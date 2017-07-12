@@ -7,6 +7,7 @@ import CoreLayout from "../layouts/CoreLayout";
 import Home from "./home";
 import login from  './login';
 import ssPage from './ss_page';
+import chartsPage from './charts_page';
 // 错误处理路由
 import PageNotFound from "./PageNotFound";
 import Redirect from "./PageNotFound/redirect";
@@ -23,6 +24,7 @@ export const createRoutes = (store) => ({
       path: 'login',
       component: login
     },
+    chartsPage(),
     ssPage(store),
     PageNotFound(),
     Redirect

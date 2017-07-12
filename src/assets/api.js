@@ -17,5 +17,4 @@ let apiURL = {};
 for (let [key, value] of Object.entries(api)) {
   apiURL[key] = host + value;
 }
-
 export default apiURL;
