@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import { qnfetch, pvURL } from 'assets/utils/request'
 import setTitle from 'hoc/set_app_title'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import _ from 'lodash'
 import PvChart from './pv_chart'
 
 @setTitle('😂😂😂')

@@ -1,8 +1,9 @@
 const api = {
-   Get_pv: '/api/get_pv'
+  Get_pv: '/api/get_pv',
+  Record_pv: '/api/record_pv'
 }
 
-const host =process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
 
 let pvAPI = {};
 
