@@ -1,8 +1,8 @@
 import React from "react";
-import {qnfetch, apiURL} from "assets/utils/request";
-import {openLink} from "assets/utils/tool";
+import { qnfetch, apiURL } from "assets/utils/request";
+import { openLink } from "assets/utils/tool";
 import moment from "moment";
-import {List, ListItem} from "material-ui/List";
+import { List, ListItem } from "material-ui/List";
 import ContentAdd from "material-ui/svg-icons/content/add";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import FlatButton from "material-ui/FlatButton";
@@ -12,7 +12,7 @@ import TextField from "material-ui/TextField";
 import MenuItem from 'material-ui/MenuItem';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import {grey400} from 'material-ui/styles/colors';
+import { grey400 } from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
 import setTitle from 'hoc/set_app_title';
 import "./home.less";
@@ -28,52 +28,59 @@ export default class Home extends React.Component {
       dialogOpen: false,
       snackbarOpen: false
     }
+    this.updateData = this.updateData.bind(this)
   }
 
   componentWillMount() {
     this.fetchData();
   }
-
-  componentDidMount() {
+  
+  updateData() {
     let that = this;
-
-    function handlerUpdateData() {
-      var clientH = document.documentElement.clientHeight
-      var scrollTop = document.body.scrollTop
-      var scrollH = document.body.scrollHeight
-      // 防止重复拉取
-      if (that.state.isFetching) {
-        return;
-      }
-
-      if (clientH + scrollTop >= scrollH - 80) {
-        if (that.state.nextURL) {
-
-          that.setState({
-            ...that.state,
-            isFetching: true
-          })
-
-          qnfetch(that.state.nextURL)
-            .then(res => res.json())
-            .then(data => {
-              const list = data.results;
-              that.setState({
-                ...that.state,
-                list: [...that.state.list, ...list],
-                nextURL: data.next,
-                isFetching: false
-              })
-            })
-            .catch(err => console.log(err))
-        }
-      }
+    var clientH = document.documentElement.clientHeight
+    var scrollTop = document.body.scrollTop
+    var scrollH = document.body.scrollHeight
+    // 防止重复拉取
+    if (that.state.isFetching) {
+      return;
     }
 
+    if (clientH + scrollTop >= scrollH - 80) {
+      if (that.state.nextURL) {
+
+        that.setState({
+          ...that.state,
+          isFetching: true
+        })
+
+        qnfetch(that.state.nextURL)
+          .then(res => res.json())
+          .then(data => {
+            const list = data.results;
+            that.setState({
+              ...that.state,
+              list: [...that.state.list, ...list],
+              nextURL: data.next,
+              isFetching: false
+            })
+          })
+          .catch(err => console.log(err))
+      }
+    }
+  }
+
+  componentDidMount() {
     // 监听手指触摸
-    this.refs['list'].addEventListener('touchmove', handlerUpdateData, { passive: true })
+    this.listDom.addEventListener('touchmove', this.updateData, { passive: true })
     // 监听滚动条
-    window.addEventListener('scroll', handlerUpdateData, true)
+    window.addEventListener('scroll', this.updateData, true)
+  }
+
+  componentWillUnmount() {
+    // 监听手指触摸
+    this.listDom.removeEventListener('touchmove', this.updateData, { passive: true })
+    // 监听滚动条
+    window.removeEventListener('scroll', this.updateData, true)
   }
 
   fetchData = () => {
@@ -83,7 +90,7 @@ export default class Home extends React.Component {
       .then(data => {
         const list = data.results;
         const nextURL = data.next;
-        that.setState({list, nextURL})
+        that.setState({ list, nextURL })
       })
       .catch(err => console.log(err))
 
@@ -121,7 +128,7 @@ export default class Home extends React.Component {
 
   handleSend = () => {
     const content = document.getElementById('contentText').value
-    const params = {content}
+    const params = { content }
     const that = this
     qnfetch(apiURL.Post_Message, params, 'POST')
       .then(res => res.json())
@@ -162,26 +169,26 @@ export default class Home extends React.Component {
     const iconButtonElement = (
       <IconButton
       >
-        <MoreVertIcon color={grey400}/>
+        <MoreVertIcon color={grey400} />
       </IconButton>
     );
 
 
     return (
       <div>
-        <div className="message-list" ref="list">
+        <div className="message-list" ref={list => this.listDom = list}>
           <List>
             {list.length > 0 && list.map((i, index) =>
               <ListItem key={index}
-                        primaryText={i.content}
-                        secondaryText={moment.unix(i.time).fromNow()}
-                        className="message-item"
-                        onTouchTap={() => openLink(i.content)}
-                        rightIconButton={
-                          <IconMenu iconButtonElement={iconButtonElement}>
-                            <MenuItem key={index} onTouchTap={() => this.handleCopy(index)}>Copy</MenuItem>
-                          </IconMenu>
-                        }
+                primaryText={i.content}
+                secondaryText={moment.unix(i.time).fromNow()}
+                className="message-item"
+                onTouchTap={() => openLink(i.content)}
+                rightIconButton={
+                  <IconMenu iconButtonElement={iconButtonElement}>
+                    <MenuItem key={index} onTouchTap={() => this.handleCopy(index)}>Copy</MenuItem>
+                  </IconMenu>
+                }
               />
             )}
           </List>
@@ -197,16 +204,16 @@ export default class Home extends React.Component {
           open={this.state.dialogOpen}
           onRequestClose={this.handleClose}
         >
-          <TextField style={{width: '100%'}}
-                     hintText="Write what you think"
-                     floatingLabelText="Yo man!"
-                     multiLine={true}
-                     rows={2}
-                     id="contentText"
+          <TextField style={{ width: '100%' }}
+            hintText="Write what you think"
+            floatingLabelText="Yo man!"
+            multiLine={true}
+            rows={2}
+            id="contentText"
           />
         </Dialog>
         {/*剪切板内容 容器*/}
-        <input id="content" style={{position: 'fixed', zIndex: '-100', top: '0'}}/>
+        <input id="content" style={{ position: 'fixed', zIndex: '-100', top: '0' }} />
 
         <Snackbar
           open={this.state.snackbarOpen}
