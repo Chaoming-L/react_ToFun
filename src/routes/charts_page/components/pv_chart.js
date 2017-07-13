@@ -7,7 +7,7 @@ import ReactEcharts from 'echarts-for-react'
 export default class PvChart extends React.Component {
     defaultOption = {
         title: {
-            text: '流量PV图'
+            text: '流量统计表'
         },
         tooltip: {
             trigger: 'axis',
@@ -30,7 +30,7 @@ export default class PvChart extends React.Component {
             containLabel: true
         },
         xAxis: [
-            {
+            {   
                 type: 'category',
                 boundaryGap: false,
                 data: []
@@ -53,8 +53,8 @@ export default class PvChart extends React.Component {
     }
 
     render() {
-        const {option} = this.props
-        this.defaultOption.xAxis.data = option.date
+        const { option } = this.props
+        this.defaultOption.xAxis[0].data = option.date
         this.defaultOption.series[0].data = option.count
         return (
             <div>
