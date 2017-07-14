@@ -3,7 +3,7 @@ const api = {
   Record_pv: '/api/record_pv'
 }
 
-const host = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://123.207.34.114:4399';
+const host = process.env.NODE_ENV === 'development' ? 'http://192.168.1.120:3000' : 'http://123.207.34.114:4399';
 
 let pvAPI = {};
 
