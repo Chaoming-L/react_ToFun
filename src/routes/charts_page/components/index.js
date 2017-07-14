@@ -2,11 +2,11 @@
  * Created by Damon on 2017/5/29.
  */
 import React from 'react'
-import { connect } from 'react-redux'
 import { qnfetch, pvURL } from 'assets/utils/request'
+import ReactEcharts from 'echarts-for-react'
 import setTitle from 'hoc/set_app_title'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import ReactEcharts from 'echarts-for-react'
+import Pie from './pie'
 
 @setTitle('😂😂😂')
 export default class ChartsPage extends React.Component {
@@ -55,7 +55,7 @@ export default class ChartsPage extends React.Component {
         const { date, count } = option
         return {
             title: {
-                text: '流量统计表'
+                text: '吐槽趋势'
             },
             tooltip: {
                 trigger: 'axis',
@@ -74,6 +74,7 @@ export default class ChartsPage extends React.Component {
             },
             xAxis: [
                 {
+                    name: '时间',
                     type: 'category',
                     boundaryGap: false,
                     data: date
@@ -86,9 +87,8 @@ export default class ChartsPage extends React.Component {
             ],
             series: [
                 {
-                    name: '点击数',
+                    name: '吐槽值',
                     type: 'line',
-                    stack: '总量',
                     areaStyle: { normal: {} },
                     data: count
                 }
@@ -112,6 +112,7 @@ export default class ChartsPage extends React.Component {
                         <ReactEcharts option={this.defaultOption(day)} theme='macarons' ref={intanceDom => this.day = intanceDom} />
                     </Tab>
                 </Tabs>
+                <Pie />
             </div>
         )
     }
