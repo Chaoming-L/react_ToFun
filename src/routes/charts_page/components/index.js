@@ -2,11 +2,11 @@
  * Created by Damon on 2017/5/29.
  */
 import React from 'react'
-import { connect } from 'react-redux'
 import { qnfetch, pvURL } from 'assets/utils/request'
+import ReactEcharts from 'echarts-for-react'
 import setTitle from 'hoc/set_app_title'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import PvChart from './pv_chart'
+import Pie from './pie'
 
 @setTitle('😂😂😂')
 export default class ChartsPage extends React.Component {
@@ -29,6 +29,7 @@ export default class ChartsPage extends React.Component {
             .then(resData => {
                 if (resData.code == 0) {
                     that.setState({ [chartType]: resData })
+                    this.debuggerChart(chartType)
                 } else {
                     console.log(resData)
                 }
@@ -36,9 +37,62 @@ export default class ChartsPage extends React.Component {
             .catch(err => console.log(err))
     }
 
+    // 修复切换tab图表消失的bug
+    debuggerChart = (chartType) => {
+        this[chartType].getEchartsInstance().dispose()
+        let { [chartType]: option } = this.state
+        this[chartType].getEchartsInstance().setOption(this.defaultOption(option))
+    }
+
     handleChange = (chartType) => {
         if (this.state[chartType].code !== 0) {
             this.fetchChartDate(chartType)
+        }
+        this.debuggerChart(chartType)
+    }
+
+    defaultOption(option) {
+        const { date, count } = option
+        return {
+            title: {
+                text: '吐槽趋势'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                }
+            },
+            legend: {
+                data: []
+            },
+            grid: {
+                left: '3%',
+                right: '3%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    name: '时间',
+                    type: 'category',
+                    boundaryGap: false,
+                    data: date
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '吐槽值',
+                    type: 'line',
+                    areaStyle: { normal: {} },
+                    data: count
+                }
+            ]
         }
     }
 
@@ -49,15 +103,16 @@ export default class ChartsPage extends React.Component {
             <div>
                 <Tabs onChange={this.handleChange}>
                     <Tab label="Month" value='month' >
-                        <PvChart chartType='month' option={month} />
+                        <ReactEcharts option={this.defaultOption(month)} theme='macarons' ref={intanceDom => this.month = intanceDom} />
                     </Tab>
                     <Tab label="Week" value='week' >
-                        <PvChart chartType='week' option={week} />
+                        <ReactEcharts option={this.defaultOption(week)} theme='macarons' ref={intanceDom => this.week = intanceDom} />
                     </Tab>
                     <Tab label="Day" value='day' >
-                        <PvChart chartType='day' option={day} />
+                        <ReactEcharts option={this.defaultOption(day)} theme='macarons' ref={intanceDom => this.day = intanceDom} />
                     </Tab>
                 </Tabs>
+                <Pie />
             </div>
         )
     }
