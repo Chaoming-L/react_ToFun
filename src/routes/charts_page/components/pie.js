@@ -13,7 +13,7 @@ export default class Pie extends React.Component {
 
         return {
             title: {
-                text: '吐槽OS分布',
+                text: 'OS占比',
                 x: 'left'
             },
             grid: {
@@ -43,32 +43,30 @@ export default class Pie extends React.Component {
                 }
             },
             calculable: true,
-            series: [
-                {
-                    name: 'os占比',
-                    type: 'pie',
-                    radius: [20, 110],
-                    // center: ['25%', '50%'],
-                    roseType: 'radius',
-                    label: {
-                        normal: {
-                            show: false
-                        },
-                        emphasis: {
-                            show: true
-                        }
+            series: [{
+                name: 'os占比',
+                type: 'pie',
+                radius: [20, 110],
+                // center: ['25%', '50%'],
+                roseType: 'radius',
+                label: {
+                    normal: {
+                        show: false
                     },
-                    lableLine: {
-                        normal: {
-                            show: false
-                        },
-                        emphasis: {
-                            show: true
-                        }
+                    emphasis: {
+                        show: true
+                    }
+                },
+                lableLine: {
+                    normal: {
+                        show: false
                     },
-                    data: total
-                }
-            ]
+                    emphasis: {
+                        show: true
+                    }
+                },
+                data: total
+            }]
         };
 
     }
@@ -87,10 +85,13 @@ export default class Pie extends React.Component {
 
     render() {
         const { data } = this.state
-        return (
-            <div>
-                <ReactEcharts option={this.defaultOption(data)} theme='macarons' />
-            </div>
+        return ( <
+            div >
+            <
+            ReactEcharts option = { this.defaultOption(data) }
+            theme = 'macarons' / >
+            <
+            /div>
         )
     }
 }
