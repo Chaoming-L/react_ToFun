@@ -4,6 +4,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import CardItem from './card_item'
+import InputDialog from './dialog'
 import { fetchWithToken, apiURL } from 'assets/utils/request'
 import setTitle from 'hoc/set_app_title';
 
@@ -42,6 +43,7 @@ export default class SsPage extends React.Component {
         {ssList.map((item, index) => (
           <CardItem {...item} key={index} />
         ))}
+        <InputDialog />
       </div>
     )
   }

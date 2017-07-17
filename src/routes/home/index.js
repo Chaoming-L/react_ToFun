@@ -212,12 +212,13 @@ export default class Home extends React.Component {
             id="contentText"
           />
         </Dialog>
+
         {/*剪切板内容 容器*/}
         <input id="content" style={{ position: 'fixed', zIndex: '-100', top: '0' }} />
 
         <Snackbar
           open={this.state.snackbarOpen}
-          message="Copyied !"
+          message="Copied !"
           autoHideDuration={1000}
           onRequestClose={this.onRequestClose}
         />
