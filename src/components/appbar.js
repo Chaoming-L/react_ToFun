@@ -35,11 +35,12 @@ class AppBarFixed extends React.Component {
 
   _logout = () => {
     const { logout } = this.props
-    localStorage.removeItem('Token')
+
     fetchWithToken(apiURL.Logout)
       .then(data => data.json())
       .then(response => {
         if (response.error_code == 0) {
+          localStorage.removeItem('Token')
           // 通知store 用户已经登出
           logout()
           browserHistory.replace('/')
@@ -54,7 +55,7 @@ class AppBarFixed extends React.Component {
 
   renderSSbtn = (isLogin) => (
     isLogin ?
-      <div className="block-btn ss-page" onTouchTap={() => 　this._gotoThisPage('/ss_page')}>
+      <div className="block-btn ss-page" onTouchTap={() => this._gotoThisPage('/ss_page')}>
         <Send className="block-icon" />
       </div>
       : null
