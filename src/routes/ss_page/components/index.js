@@ -43,7 +43,7 @@ export default class SsPage extends React.Component {
         {ssList.map((item, index) => (
           <CardItem {...item} key={index} />
         ))}
-        <InputDialog />
+        <InputDialog fetchData={this.fetchData}/>
       </div>
     )
   }

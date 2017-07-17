@@ -15,8 +15,11 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import { grey400 } from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
 import setTitle from 'hoc/set_app_title';
+import withSnackbar from 'hoc/snackbar';
+
 import "./home.less";
 
+@withSnackbar
 @setTitle('🐸ToFun')
 export default class Home extends React.Component {
   constructor() {
@@ -26,7 +29,6 @@ export default class Home extends React.Component {
       list: [],
       nextURL: '',
       dialogOpen: false,
-      snackbarOpen: false
     }
     this.updateData = this.updateData.bind(this)
   }
@@ -49,7 +51,6 @@ export default class Home extends React.Component {
       if (that.state.nextURL) {
 
         that.setState({
-          ...that.state,
           isFetching: true
         })
 
@@ -98,14 +99,12 @@ export default class Home extends React.Component {
 
   handleOpen = () => {
     this.setState({
-      ...this.state,
       dialogOpen: true
     })
   }
 
   handleClose = () => {
     this.setState({
-      ...this.state,
       dialogOpen: false
     })
   }
@@ -119,11 +118,9 @@ export default class Home extends React.Component {
     input.select()
     input.setSelectionRange(0, input.value.length)
     document.execCommand('copy')
-    // 底部提示
-    this.setState({
-      ...this.state,
-      snackbarOpen: true
-    })
+
+    // 显示底部弹框
+    this.props.openSnackbar('已复制到剪切板!')
   }
 
   handleSend = () => {
@@ -140,13 +137,6 @@ export default class Home extends React.Component {
         })
       })
       .catch(err => console.log(err))
-  }
-
-  onRequestClose = () => {
-    this.setState({
-      ...this.state,
-      snackbarOpen: false
-    })
   }
 
   render() {
@@ -215,14 +205,6 @@ export default class Home extends React.Component {
 
         {/*剪切板内容 容器*/}
         <input id="content" style={{ position: 'fixed', zIndex: '-100', top: '0' }} />
-
-        <Snackbar
-          open={this.state.snackbarOpen}
-          message="Copied !"
-          autoHideDuration={1000}
-          onRequestClose={this.onRequestClose}
-        />
-
       </div>
     )
   }

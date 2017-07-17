@@ -2,8 +2,8 @@ import Snackbar from 'material-ui/Snackbar'
 import React from 'react'
 
 const withSnackbar = WrapComnent => class WithSnackbarHOC extends React.Component {
-    constructor(props) {
-        super(props)
+    constructor() {
+        super()
         this.state = {
             snackbarOpen: false,
             message: ''
@@ -33,7 +33,7 @@ const withSnackbar = WrapComnent => class WithSnackbarHOC extends React.Componen
                     open={snackbarOpen}
                     message={message}
                     autoHideDuration={1600}
-                    handleClose={this.handleClose}
+                    onRequestClose={this.handleClose}
                 />
                 <WrapComnent {...this.props} openSnackbar={this.handleOpnen}/>
             </div>
