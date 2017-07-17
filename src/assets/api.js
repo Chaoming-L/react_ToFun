@@ -7,7 +7,7 @@ const api = {
   Login :'/api/userlogin',
   Logout: '/api/userlogout',
   Getss: '/api/getss',
-  Addss: '/api/addss'
+  Add_ss: '/api/addss'
 }
 
 const host = 'http://123.207.34.114';
