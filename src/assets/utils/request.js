@@ -17,17 +17,22 @@ export function qnfetch(url, datas = {}, method = 'GET') {
   }
 };
 
-export function fetchWithToken(url) {
+export function fetchWithToken(url, params, method) {
   if (localStorage.getItem('Token')) {
     const Token = localStorage.getItem('Token')
-
-    return fetch(url, {
-      method: 'GET',
+    let requestObj = {
+      method: method || 'GET',
       headers: {
         'content-type': 'application/json',
         'Authorization': `Token ${Token}`
-      },
-    })
+      }
+    }
+
+    if (params && method) {
+      requestObj = { ...requestObj, body: JSON.stringify(params) }
+    }
+
+    return fetch(url, requestObj)
   } else {
     return new Promise((resolve, reject) => {
       reject('重新登录吧')
