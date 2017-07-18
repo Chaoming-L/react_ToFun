@@ -48,10 +48,13 @@ export default class InputDialog extends React.Component {
                     that.handleClose()
                     openSnackbar('添加成功!')
                 } else {
-                    alert(res)
+                    console.log(res)
+                    openSnackbar('添加失败,输入信息不正确')
                 }
             })
-            .catch(err => {})
+            .catch(error => {
+                 console.log(err)
+            })
 
 
     }
