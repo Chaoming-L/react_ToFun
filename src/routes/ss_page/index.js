@@ -6,7 +6,7 @@ export default (store) => ({
   indexRoute: {
     onEnter (nextState, replace) {
       if(!localStorage.getItem('Token')) {
-        replace('/404')
+        replace('/login')
       }
     }
   },
