@@ -5,6 +5,8 @@ import Dialog from "material-ui/Dialog"
 import FlatButton from "material-ui/FlatButton"
 import TextField from "material-ui/TextField"
 import { fetchWithToken, apiURL } from 'assets/utils/request'
+import DropDownMenu from 'material-ui/DropDownMenu'
+import MenuItem from 'material-ui/MenuItem'
 import './dialog.less'
 
 import withSnackbar from 'hoc/snackbar';
@@ -12,7 +14,8 @@ import withSnackbar from 'hoc/snackbar';
 @withSnackbar
 export default class InputDialog extends React.Component {
     state = {
-        dialogOpen: false
+        dialogOpen: false,
+        value: 'chacha20'
     }
 
     handleOpen = () => {
@@ -27,9 +30,12 @@ export default class InputDialog extends React.Component {
         })
     }
 
+    handleChange = (event, index, value) => this.setState({ value });
+
+
     handleSend = () => {
         const { openSnackbar, fetchData } = this.props,
-            that = this
+            that = this;
 
         const doc = document,
             server_name = doc.getElementById('server_name').value,
@@ -37,7 +43,7 @@ export default class InputDialog extends React.Component {
             port = doc.getElementById('port').value,
             password = doc.getElementById('password').value,
             region = doc.getElementById('region').value,
-            encrypt_method = doc.getElementById('encrypt_method').value;
+            encrypt_method = that.state.value;
 
         const params = { server_name, ip, port, password, region, encrypt_method }
         fetchWithToken(apiURL.Add_ss, params, 'POST')
@@ -47,14 +53,16 @@ export default class InputDialog extends React.Component {
                     fetchData()
                     that.handleClose()
                     openSnackbar('添加成功!')
-                } else if(res.error_code == 3) {
+                } else if (res.error_code == 3) {
                     openSnackbar('你没有supser user权限!')
+                } else if(res.error_code == 1){
+                    openSnackbar('输入信息有误!')
                 } else {
-                    openSnackbar('请重新登录!')                    
+                    openSnackbar('请重新登录!')
                 }
             })
             .catch(error => {
-                 console.log(err)
+                console.log(err)
             })
 
 
@@ -118,12 +126,23 @@ export default class InputDialog extends React.Component {
                             rows={1}
                             id="region"
                         />
-                        <TextField style={{ width: '100%' }}
-                            floatingLabelText="encrypt method"
-                            multiLine={true}
-                            rows={1}
-                            id="encrypt_method"
-                        />
+
+                        <DropDownMenu value={this.state.value} onChange={this.handleChange} style={{ width: '100%', paddingLeft: '0' }}>
+                            <MenuItem value={'chacha20'} primaryText="chacha20" />
+                            <MenuItem value={'bf-cfb'} primaryText="bf-cfb" />
+                            <MenuItem value={'salsa20'} primaryText="salsa20" />
+                            <MenuItem value={'rc4-md5'} primaryText="rc4-md5" />
+                            <MenuItem value={'aes-128-ctr'} primaryText="aes-128-ctr" />
+                            <MenuItem value={'aes-192-ctr'} primaryText="aes-192-ctr" />
+                            <MenuItem value={'aes-256-ctr'} primaryText="aes-256-ctr" />
+                            <MenuItem value={'aes-128-cfb'} primaryText="aes-128-cfb" />
+                            <MenuItem value={'aes-192-cfb'} primaryText="aes-192-cfb" />
+                            <MenuItem value={'aes-256-cfb'} primaryText="aes-256-cfb" />
+                            <MenuItem value={'camellia-128-cfb'} primaryText="camellia-128-cfb" />
+                            <MenuItem value={'camellia-192-cfb'} primaryText="camellia-192-cfb" />
+                            <MenuItem value={'camellia-256-cfb'} primaryText="camellia-256-cfb" />
+                            <MenuItem value={'chacha20-ietf'} primaryText="chacha20-ietf" />
+                        </DropDownMenu>
                     </div>
 
                 </Dialog>
