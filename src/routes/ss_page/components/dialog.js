@@ -47,9 +47,10 @@ export default class InputDialog extends React.Component {
                     fetchData()
                     that.handleClose()
                     openSnackbar('添加成功!')
+                } else if(res.error_code == 3) {
+                    openSnackbar('你没有supser user权限!')
                 } else {
-                    console.log(res)
-                    openSnackbar('添加失败,输入信息不正确')
+                    openSnackbar('请重新登录!')                    
                 }
             })
             .catch(error => {
