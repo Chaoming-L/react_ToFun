@@ -1,8 +1,20 @@
 import React from 'react'
-import socket from 'socket.io-client'
+import io from 'socket.io-client'
+
+const socket = io('ws://tofun.selfcoding.cn/anonymous-chat/123')
 
 export default class ChatIndex extends React.Component {
+    componentDidMount() {
+        socket.emit('222', (msg) => {
+            console.log(msg)
+        })
+    }
+
     render() {
-      return <div>fdfd</div>
+        return (
+            <div>
+                
+            </div>
+        )
     }
 }
