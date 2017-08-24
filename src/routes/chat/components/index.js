@@ -1,7 +1,7 @@
 import React from 'react'
 import io from 'socket.io-client'
 
-const socket = io('ws://tofun.selfcoding.cn/anonymous-chat/123')
+const socket = io('wss://tofun.selfcoding.cn/anonymous-chat/123')
 
 export default class ChatIndex extends React.Component {
     componentDidMount() {

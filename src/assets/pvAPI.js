@@ -1,10 +1,10 @@
 const api = {
-    Get_pv: '/api/get_pv',
-    Record_pv: '/api/record_pv',
-    Get_os: '/api/get_os'
+    Get_pv: '/cao_api/get_pv',
+    Record_pv: '/cao_api/record_pv',
+    Get_os: '/cao_api/get_os'
 }
 
-const host = process.env.NODE_ENV === 'development' ? 'http://192.168.1.120:3000' : 'http://123.207.34.114:3000';
+const host = process.env.NODE_ENV === 'development' ? 'http://192.168.1.120:3000' : 'https://tofun.selfcoding.cn';
 
 let pvAPI = {};
 
