@@ -169,7 +169,7 @@ var Spinner = require('react-spinkit');
 <Spinner spinnerName='double-bounce' />
 ```
 
-## 服务端
+## 本地调试
 
 这个项目的服务端使用express。需要注意的是，只有一个目的那就是提供了`webpack-dev-middleware` 和 `webpack-hot-middleware`（代码热替换）。使用自定义的express程序替换[webpack-dev-server](https://github.com/webpack/webpack-dev-server)，让它更容易实现universal 渲染和为了不使这个包过于庞大。
 
