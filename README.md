@@ -31,7 +31,7 @@ $ npm start                     # 编译和运行
 |`deploy:test`|部署到测试环境。|
 |`deploy:uat`|部署到UAT环境。|
 
-## 中间件
+## 依赖
 
 dependencies:
 
