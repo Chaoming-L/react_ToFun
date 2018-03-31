@@ -1,8 +1,8 @@
 import React from "react";
-import { qnfetch, apiURL } from "assets/utils/request";
-import { openLink } from "assets/utils/tool";
+import {qnfetch, apiURL} from "assets/utils/request";
+import {openLink} from "assets/utils/tool";
 import moment from "moment";
-import { List, ListItem } from "material-ui/List";
+import {List, ListItem} from "material-ui/List";
 import ContentAdd from "material-ui/svg-icons/content/add";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import FlatButton from "material-ui/FlatButton";
@@ -12,200 +12,210 @@ import TextField from "material-ui/TextField";
 import MenuItem from 'material-ui/MenuItem';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import { grey400 } from 'material-ui/styles/colors';
+import {grey400} from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
 import setTitle from 'hoc/set_app_title';
 import withSnackbar from 'hoc/snackbar';
+import Loading from '../../components/loading';
 
 import "./home.less";
 
 @withSnackbar
 @setTitle('🐸ToFun')
 export default class Home extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      isFetching: false,
-      list: [],
-      nextURL: '',
-      dialogOpen: false,
-    }
-    this.updateData = this.updateData.bind(this)
-  }
-
-  componentWillMount() {
-    this.fetchData();
-  }
-  
-  updateData() {
-    let that = this;
-    var clientH = document.documentElement.clientHeight
-    var scrollTop = document.body.scrollTop
-    var scrollH = document.body.scrollHeight
-    // 防止重复拉取
-    if (that.state.isFetching) {
-      return;
+    constructor() {
+        super();
+        this.state = {
+            isFetching: false,
+            list: [],
+            nextURL: '',
+            dialogOpen: false,
+        }
+        this.updateData = this.updateData.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
     }
 
-    if (clientH + scrollTop >= scrollH - 80) {
-      if (that.state.nextURL) {
+    componentWillMount() {
+        this.fetchData();
+    }
 
-        that.setState({
-          isFetching: true
-        })
+    updateData() {
+        let that = this;
+        var clientH = document.documentElement.clientHeight
+        var scrollTop = document.scrollingElement.scrollTop
+        var scrollH = document.body.scrollHeight
+        // 防止重复拉取
+        if (that.state.isFetching) {
+            return;
+        }
+        if (clientH + scrollTop >= scrollH - 80) {
+            if (that.state.nextURL) {
 
-        qnfetch(that.state.nextURL)
-          .then(res => res.json())
-          .then(data => {
-            const list = data.results;
-            that.setState({
-              ...that.state,
-              list: [...that.state.list, ...list],
-              nextURL: data.next,
-              isFetching: false
+                that.setState({
+                    isFetching: true
+                })
+
+                qnfetch(that.state.nextURL)
+                    .then(res => res.json())
+                    .then(data => {
+                        const list = data.results;
+                        that.setState({
+                            ...that.state,
+                            list: [...that.state.list, ...list],
+                            nextURL: data.next,
+                            isFetching: false
+                        })
+                    })
+                    .catch(err => console.log(err))
+            }
+        }
+    }
+
+    componentDidMount() {
+        // 监听手指触摸
+        this.listDom.addEventListener('touchmove', this.updateData, {passive: true})
+        // 监听滚动条
+        window.addEventListener('scroll', this.updateData, true)
+    }
+
+    componentWillUnmount() {
+        // 监听手指触摸
+        this.listDom.removeEventListener('touchmove', this.updateData, {passive: true})
+        // 监听滚动条
+        window.removeEventListener('scroll', this.updateData, true)
+    }
+
+    fetchData = () => {
+        let that = this;
+        qnfetch(apiURL.Get_Message_list)
+            .then(res => res.json())
+            .then(data => {
+                const list = data.results;
+                const nextURL = data.next;
+                that.setState({list, nextURL})
             })
-          })
-          .catch(err => console.log(err))
-      }
+            .catch(err => console.log(err))
+
     }
-  }
 
-  componentDidMount() {
-    // 监听手指触摸
-    this.listDom.addEventListener('touchmove', this.updateData, { passive: true })
-    // 监听滚动条
-    window.addEventListener('scroll', this.updateData, true)
-  }
-
-  componentWillUnmount() {
-    // 监听手指触摸
-    this.listDom.removeEventListener('touchmove', this.updateData, { passive: true })
-    // 监听滚动条
-    window.removeEventListener('scroll', this.updateData, true)
-  }
-
-  fetchData = () => {
-    let that = this;
-    qnfetch(apiURL.Get_Message_list)
-      .then(res => res.json())
-      .then(data => {
-        const list = data.results;
-        const nextURL = data.next;
-        that.setState({ list, nextURL })
-      })
-      .catch(err => console.log(err))
-
-  }
-
-  handleOpen = () => {
-    this.setState({
-      dialogOpen: true
-    })
-  }
-
-  handleClose = () => {
-    this.setState({
-      dialogOpen: false
-    })
-  }
-
-  handleCopy = (index) => {
-    const content = this.state.list[index].content
-    // 复制内容到剪切板
-    const input = document.getElementById('content')
-    input.value = content
-    input.focus()
-    input.select()
-    input.setSelectionRange(0, input.value.length)
-    document.execCommand('copy')
-
-    // 显示底部弹框
-    this.props.openSnackbar('已复制到剪切板!')
-  }
-
-  handleSend = () => {
-    const content = document.getElementById('contentText').value
-    const params = { content }
-    const that = this
-    qnfetch(apiURL.Post_Message, params, 'POST')
-      .then(res => res.json())
-      .then(data => {
-        that.setState({
-          ...that.state,
-          list: [data, ...that.state.list],
-          dialogOpen: false
+    handleOpen = () => {
+        this.setState({
+            dialogOpen: true
         })
-      })
-      .catch(err => console.log(err))
-  }
+    }
 
-  render() {
-    const list = this.state.list || [];
+    handleClose = () => {
+        this.setState({
+            dialogOpen: false
+        })
+    }
 
-    const actions = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onTouchTap={this.handleClose}
-      />,
-      <FlatButton
-        label="Send"
-        primary={true}
-        keyboardFocused={true}
-        onTouchTap={this.handleSend}
-      />,
-    ];
+    handleCopy = (index) => {
+        const content = this.state.list[index].content
+        // 复制内容到剪切板
+        const input = document.getElementById('content')
+        input.value = content
+        input.focus()
+        input.select()
+        input.setSelectionRange(0, input.value.length)
+        document.execCommand('copy')
 
-    const iconButtonElement = (
-      <IconButton
-      >
-        <MoreVertIcon color={grey400} />
-      </IconButton>
-    );
+        // 显示底部弹框
+        this.props.openSnackbar('已复制到剪切板!')
+    }
+
+    handleSend = () => {
+        const content = document.getElementById('contentText').value
+        const params = {content}
+        const that = this
+        qnfetch(apiURL.Post_Message, params, 'POST')
+            .then(res => res.json())
+            .then(data => {
+                that.setState({
+                    ...that.state,
+                    list: [data, ...that.state.list],
+                    dialogOpen: false
+                })
+            })
+            .catch(err => console.log(err))
+    }
+    
+    handleKeyDown({keyCode}) {
+        // 回车发送
+        if(keyCode === 13) {
+            this.handleSend()
+        }
+    }
+
+    render() {
+        const {list = [], isFetching} = this.state;
+
+        const actions = [
+            <FlatButton
+                label="Cancel"
+                primary={true}
+                onTouchTap={this.handleClose}
+            />,
+            <FlatButton
+                label="Send"
+                primary={true}
+                keyboardFocused={true}
+                onTouchTap={this.handleSend}
+            />
+        ];
+
+        const iconButtonElement = (
+            <IconButton
+            >
+                <MoreVertIcon color={grey400} />
+            </IconButton>
+        );
 
 
-    return (
-      <div>
-        <div className="message-list" ref={list => this.listDom = list}>
-          <List>
-            {list.length > 0 && list.map((i, index) =>
-              <ListItem key={index}
-                primaryText={i.content}
-                secondaryText={moment.unix(i.time).fromNow()}
-                className="message-item"
-                onTouchTap={() => openLink(i.content)}
-                rightIconButton={
-                  <IconMenu iconButtonElement={iconButtonElement}>
-                    <MenuItem key={index} onTouchTap={() => this.handleCopy(index)}>Copy</MenuItem>
-                  </IconMenu>
-                }
-              />
-            )}
-          </List>
-        </div>
+        return (
+            <div>
+                <div className="message-list" ref={list => this.listDom = list}>
+                    <List>
+                        {list.length > 0 && list.map((i, index) =>
+                            <ListItem key={index}
+                                primaryText={i.content}
+                                secondaryText={moment.unix(i.time).fromNow()}
+                                className="message-item"
+                                onTouchTap={() => openLink(i.content)}
+                                rightIconButton={
+                                    <IconMenu iconButtonElement={iconButtonElement}>
+                                        <MenuItem key={index} onTouchTap={() => this.handleCopy(index)}>Copy</MenuItem>
+                                    </IconMenu>
+                                }
+                            />
+                        )}
+                    </List>
+                </div>
+                <Loading isloading={isFetching} />
 
-        <FloatingActionButton secondary={true} className="floating-button" onTouchTap={this.handleOpen}>
-          <ContentAdd />
-        </FloatingActionButton>
+                <FloatingActionButton secondary={true} className="floating-button" onTouchTap={this.handleOpen}>
+                    <ContentAdd />
+                </FloatingActionButton>
 
-        <Dialog
-          actions={actions}
-          modal={false}
-          open={this.state.dialogOpen}
-          onRequestClose={this.handleClose}
-        >
-          <TextField style={{ width: '100%' }}
-            hintText="Write what you think"
-            floatingLabelText="Yo man!"
-            multiLine={true}
-            rows={2}
-            id="contentText"
-          />
-        </Dialog>
+                <Dialog
+                    actions={actions}
+                    modal={false}
+                    open={this.state.dialogOpen}
+                    onRequestClose={this.handleClose}
+                >
+                    <TextField style={{width: '100%'}}
+                        hintText="Write what you think"
+                        floatingLabelText="Yo man!"
+                        multiLine={true}
+                        rows={2}
+                        id="contentText"
+                        onKeyDown={this.handleKeyDown}
+                    />
+                </Dialog>
 
-        {/*剪切板内容 容器*/}
-        <input id="content" style={{ position: 'fixed', zIndex: '-100', top: '0' }} />
-      </div>
-    )
-  }
+                {/*剪切板内容 容器*/}
+                <input id="content" style={{position: 'fixed', zIndex: '-100', top: '0'}} />
+            </div>
+        )
+    }
 }
