@@ -35,3 +35,11 @@ export function getCookie (cName) {
   return ''
 }
 
+export function loadScript(url, callback) {
+    const ele = document.createElement('script')
+    ele.addEventListener('load', callback, false)
+    ele.src = url
+    ele.type = 'javascript/text'
+    ele.charset = 'utf-8'
+    document.body.appendChild(ele)
+}
