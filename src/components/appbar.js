@@ -79,7 +79,8 @@ class AppBarFixed extends React.Component {
       <div>
         <div className='fixed-nav'>
           <AppBar
-            title={appTitle} titleStyle={{ textAlign: 'center' }}
+            className='google-font'
+            title={appTitle} titleStyle={{ textAlign: 'center'}}
             onLeftIconButtonTouchTap={this.handleToggle}
             onRightIconButtonTouchTap={this._goHome}
             iconElementRight={<IconButton><Home /></IconButton>}
@@ -99,7 +100,7 @@ class AppBarFixed extends React.Component {
           </div>
 
           <List className="about-me">
-            <div className="author">Author:</div>
+            <div className="author google-font">Author:</div>
             <ListItem primaryText='🐦Damon' secondaryText='https://github.com/chaoming56'
               onTouchTap={() => openLink('https://github.com/chaoming56')} />
             <ListItem primaryText='🐮Ross' secondaryText='https://github.com/DevRoss'

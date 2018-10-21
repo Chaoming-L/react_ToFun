@@ -21,7 +21,7 @@ import Loading from '../../components/loading';
 import "./home.less";
 
 @withSnackbar
-@setTitle('🐸ToFun')
+@setTitle('🐸🕶ToFun')
 export default class Home extends React.Component {
     constructor() {
         super();

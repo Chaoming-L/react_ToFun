@@ -8,7 +8,7 @@ import setTitle from 'hoc/set_app_title'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import Pie from './pie'
 
-@setTitle('😂😂😂')
+@setTitle('📈Line')
 export default class ChartsPage extends React.Component {
     constructor() {
         super()

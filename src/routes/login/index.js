@@ -15,7 +15,7 @@ import './login.less'
   login: () => dispatch(login())
 })
 )
-@setTitle('LOGIN')
+@setTitle('🔑Login')
 export default class Login extends React.Component {
   constructor (props) {
     super(props)
